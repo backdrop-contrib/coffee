@@ -1,0 +1,6 @@
+name = Coffee
+description = An administrator module to switch between administrator pages real fast, like Alfred or Spotlight on OS X.
+core = 7.x
+package = Administration
+scripts[] = coffee.js
+stylesheets[all][] = coffee.css
