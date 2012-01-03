@@ -28,25 +28,27 @@
 	display: none;
 }
 
-#coffee_cups ul {
+#coffee_cups ol {
 	line-height: 1.0em;
 	margin: 0;
 	padding: 10px 0 0 0;
 }
 
-#coffee_cups ul li {
+#coffee_cups ol li {
 	border-bottom: 1px solid #e4e4e4;
 	font-size: 20px;
 	list-style: none;
 	width: 590px;
+	margin:10px 0px;
 }
 
-#coffee_cups li a {
+#coffee_cups li strong {
 	display: block;
 	font-size: 20px;
+	font-weight: normal;
 }
 
-#coffee_cups  span {
+#coffee_cups small {
 	color: #999;
 	display: block;
 	font-size: 11px;

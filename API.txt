@@ -1,0 +1,41 @@
+API
+
+
+--
+Hooks
+--
+hook_coffee_action();
+
+Use hook_coffee_action() to extend the functionallity of coffee.
+
+Implementations of hook_coffee_action are only called when the user type
+  :keyword
+(colon + keyword) the var $op contains only the keyword (without colon). 
+
+function hook_coffee_action($op) {
+  
+  switch ($op) {
+    case 'your operator': // the code below is called when :your operator is typed
+      // your code to make a list
+      
+      // return an associative array with the list to display in coffee
+      // although there isn't a limitation of a maximum number of items, 
+      // consider a maximum of 7 items or less, because of the fixed position of Coffee in the browser
+      $return = array(
+        'item 1' => array(
+          'path' => '', // path of the link used for redirection
+          'title' => '', // used for display
+        ),
+        'item 2' => array(
+          'path' => '', // path of the link used for redirection
+          'title' => '', // used for display
+        ),
+      );
+    break;
+  }
+
+  if( isset($return) {
+    return $return;
+  }
+  
+}

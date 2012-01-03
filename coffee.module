@@ -15,8 +15,9 @@ function coffee_permission() {
 /**
  * Implements hook_menu();
  */
-
 function coffee_menu() {
+
+  // define ajax callback for results
   $items['admin/coffee/result/%'] = array(
     'title' => 'Coffee Result Handler',
     'page callback' => 'coffee_result_handler',
@@ -40,55 +41,38 @@ function coffee_menu() {
  * @return
  *    json encoded output with results based on the $input
  */
-
 function coffee_result_handler($input = FALSE) {
 
-  if (isset($input) && !empty($input)) {
-    $input = urldecode($input);
-  }
+  // based on the first char coffee should handle a function callback
+  // or the basic functionality (redirecting to paths)
+  $action_trigger = ':';
 
-  // if the input contains slashes drupal see it as multiple arguments.
-  // we will glue them together to make the argurments to a string, that will be used in the query
-  $arguments = arg();
-  if (count($arguments) > 3) {
-    $argument_query = array_splice($arguments, 3);
-    $input = implode('/', $argument_query);
-  }
-  else {
-    return FALSE;
-  }
-
-  $input = check_plain($input);
-
-  // query to search for all link where link_path or link_title like '%$input%'
-  $sql = "SELECT link_path, link_title FROM {menu_links} WHERE  (link_path LIKE :input OR link_title LIKE :input)
-				AND menu_name = 'management'
-				AND link_title <> ''
-				AND link_path NOT LIKE '%\%%'
-				AND link_path NOT LIKE '%help%'
-				ORDER BY link_path, weight";
-
-  $result = db_query_range($sql, 0, 7, array(':input' => '%' . $input . '%'));
-
-  $return = array();
-  if (is_object($result)) {
-
-    foreach ($result as $record) {
-      $return[] = array('path' => $record->link_path, 'title' => $record->link_title);
+  // if the $action_trigger is fired
+  // invoke all implementations of hook_coffee_action()
+  if (strstr(check_plain(urldecode($input)), $action_trigger)) {
+    // execute action, invode hook_coffee
+    foreach (module_implements('coffee_action') as $module) {
+      $op = str_ireplace($action_trigger, '', $input);
+      $result = module_invoke($module, 'coffee_action', $op);
     }
-
-    // return is as json, so the javascript can handle it quite well
-    $result = drupal_json_encode($return);
-    print $result;
-    drupal_exit();
   }
   else {
-    return FALSE;
+    // is should fire the default implementation of Coffee
+    // it invokes the coffee_redirect function to look in the menu_links table
+    $result = coffee_redirect($input);
   }
+
+  if (!empty($result)) {
+    // return should be in json format so the JavaScript can handle it
+    print json_encode($result);
+  }
+  drupal_exit();
+
 }
 
 /**
  * Implements hook_init();
+ * So all users with the permission 'access coffee' can fire up Coffee
  */
 function coffee_init() {
   // only users with the permission access coffee can use coffee
@@ -96,4 +80,6 @@ function coffee_init() {
     drupal_add_js(drupal_get_path('module', 'coffee') . '/coffee.js', array('type' => 'file'));
     drupal_add_css(drupal_get_path('module', 'coffee') . '/coffee.css', array('type' => 'file'));
   }
+
+  module_load_include('inc', 'coffee', 'coffee.hooks');
 }

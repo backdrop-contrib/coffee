@@ -3,13 +3,16 @@
       attach: function (context, settings) {
         var coffee_active = false;
 
-        jQuery(document).keydown( function (e) {
+        $(document).keydown( function (e) {
+          // initialize current element, so that everytime coffee is opened the resultlist will respond correctly
+          
           // show the search box when hitting alt + d (keyCode 68 + altKey = true)
           if (e.keyCode == 68 && e.altKey == true && coffee_active == false)
           {
-            // prevent the default input of alt+d (∂)
+            currentElement = 0;
+            // prevent the default input of alt+d ( it will generate the char: ∂)
             e.preventDefault();
-            jQuery('body').append('<div class="coffee_box">' +
+            $('body').append('<div class="coffee_box">' +
                 '<form id="coffee">' + 
                 '<input autocomplete="off" id="coffee_pot" type="text" />' +
                 '</form>' +
@@ -17,30 +20,30 @@
                 '</div>' + 
             '</div>');
 
-            jQuery('.coffee_box').fadeIn(200);
-            jQuery('#coffee_pot').focus();
-            jQuery('#coffee_pot').keyup( function(event) {	
+            $('.coffee_box').fadeIn(200);
+            $('#coffee_pot').focus();
+            $('#coffee_pot').keyup( function(event) {	
 
               var theInput = $('#coffee_pot').val();
 
-              jQuery.getJSON(Drupal.settings.basePath + 'admin/coffee/result/' + theInput, function(data) {
+              $.getJSON(Drupal.settings.basePath + 'admin/coffee/result/' + theInput, function(data) {
                 var coffee_content = '';
-                coffee_content += '<ul>';
-                jQuery('#coffee_cups').fadeIn(200);
+                coffee_content += '<ol>';
+                $('#coffee_cups').slideDown();
                 var items = [];
                 
                 // initialize the index of the result list
                 var tab = 0;
-                jQuery.each(data, function(key, value) {
+                $.each(data, function(key, value) {
                   tab++;
-                  coffee_content += '<li><a id="result_'+ tab + '" href="' + Drupal.settings.basePath + value.path +'" alt="'+ value.title +'">' + value.title +'</a><span>'+ value.path +'</span></li>';
+                  coffee_content += '<li><a id="result_'+ tab + '" href="' + Drupal.settings.basePath + value.path +'" alt="'+ value.title +'"><strong>' + value.title +'</strong><small>'+ value.path +'</small></a></li>';
                 });
                 
-                coffee_content += '</ul>';
+                coffee_content += '</ol>';
 
                 // clean up the result list and insert the new list
-                jQuery('#coffee_cups').empty();
-                jQuery('#coffee_cups').append(coffee_content);	
+                $('#coffee_cups').empty();
+                $('#coffee_cups').append(coffee_content);	
               });
 
             });
@@ -68,7 +71,7 @@
               }
 
               // remove the coffee_box
-              jQuery('.coffee_box').remove();
+              $('.coffee_box').remove();
               coffee_active = false;
             }
 
@@ -89,10 +92,10 @@
 
               // if the focus is in the input
               if (e.target.id == 'coffee_pot') {
-                jQuery('#coffee_cups a#result_'+currentElement).focus();
+                $('#coffee_cups a#result_'+currentElement).focus();
               } 
               else {
-                jQuery('#coffee_cups a#result_'+currentElement).focus();
+                $('#coffee_cups a#result_'+currentElement).focus();
               }
             }
 
@@ -104,7 +107,7 @@
                 currentElement = 1;
               }
 
-              jQuery('#coffee_cups a#result_'+currentElement).focus();
+              $('#coffee_cups a#result_'+currentElement).focus();
             }
           }
         });
