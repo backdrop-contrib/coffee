@@ -3,7 +3,6 @@
   var label         = $('<label for="coffee-q" class="element-invisible" />').text(Drupal.t('Query')),
       field         = $('<input id="coffee-q" type="text" autocomplete="off" />'),
       results       = $('<ol id="coffee-results" />'),
-      focusedResult = 0,
       form          = $('<form id="coffee-form" />');
   
   $(document).ready(function () {
@@ -39,7 +38,7 @@
     // Close the form manually with esc or alt + D
     else if (form.is(':visible') && ( event.keyCode === 13 || event.keyCode === 27 || (event.altKey === true && event.keyCode === 68) )) {
       event.preventDefault();
-      
+
       var redirectPath = null;
 
       // Redirect to a result when enter is used on the link for it.
@@ -50,7 +49,6 @@
       
       field.val('');
       results.empty();
-      focusedResult = 0;
       form.hide();
       
       if (redirectPath) {
@@ -62,14 +60,14 @@
     else if (form.is(':visible') && results.children().length && event.keyCode === 38) {
       event.preventDefault();
       
-      // Go to the last result if at the first result or at the search box
-      if (focusedResult < 2) {
-        focusedResult = results.children().length;
+      var activeElement = $(document.activeElement);
+      
+      // Go to the last result if at the first result or at the search field
+      if (activeElement[0] === results.find('a:first')[0] || activeElement[0] === field[0]) {
         results.find('a:last').focus();
       }
       else {
-        --focusedResult;
-        results.find('li:nth-child(' + focusedResult + ') a').focus();
+        activeElement.parent().prev().find('a').focus();
       }
     }
     
@@ -77,17 +75,28 @@
     else if (form.is(':visible') && results.children().length && event.keyCode === 40) {
       event.preventDefault();
       
+      var activeElement = $(document.activeElement);
+      
       // Go to the first result if at the last result
-      if (focusedResult === results.children().length) {
-        focusedResult = 1;
+      if (activeElement[0] === results.find('a:last')[0]) {
+        results.find('a:first').focus();
+      }
+      // Jump into the results list if at the search field
+      else if (activeElement[0] === field[0]) {
         results.find('a:first').focus();
       }
       else {
-        ++focusedResult;
-        results.find('li:nth-child(' + focusedResult + ') a').focus();
+        activeElement.parent().next().find('a').focus();
       }
     }
     
+  });
+  
+  // Fix bitch fights between :hover and :focus for results (prevent two highlighted results)
+  // .live() is deprecated ==>> convert to .on() when Drupal gets jQuery 1.7+
+  // http://api.jquery.com/live/
+  $('#coffee-results a').live('hover', function () {
+    $(this).focus();
   });
 
 }(jQuery));
