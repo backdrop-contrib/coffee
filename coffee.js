@@ -1,117 +1,84 @@
 (function ($) {
-  Drupal.behaviors.coffee = {
-      attach: function (context, settings) {
-        var coffee_active = false;
+  
+  var label         = $('<label for="coffee-q" class="element-invisible" />').text(Drupal.t('Query')),
+      field         = $('<input id="coffee-q" type="text" autocomplete="off" />'),
+      results       = $('<ol id="coffee-results" />'),
+      form          = $('<form id="coffee-form" />'),
+      focusedResult = 0;
+  
+  $(document).ready(function () {
+    form.append(label).append(field).append(results).wrapInner('<div id="coffee-form-inner" />').appendTo('body').hide();
+  })
+  .keydown(function (event) {
+    
+    // Show the form with ALT + D
+    if (!form.is(':visible') && event.altKey === true && event.keyCode === 68) {
+      event.preventDefault();
+      form.show();
+      
+      field.focus().keyup(function () {
+        var query = field.val(),
+            placeholder = $('<ol />');
 
-        $(document).keydown( function (e) {
-          // initialize current element, so that everytime coffee is opened the resultlist will respond correctly
-          
-          // show the search box when hitting alt + d (keyCode 68 + altKey = true)
-          if (e.keyCode == 68 && e.altKey == true && coffee_active == false)
-          {
-            currentElement = 0;
-            // prevent the default input of alt+d ( it will generate the char: ∂)
-            e.preventDefault();
-            $('body').append('<div class="coffee_box">' +
-                '<form id="coffee">' + 
-                '<input autocomplete="off" id="coffee_pot" type="text" />' +
-                '</form>' +
-                '<div id="coffee_cups">'+
-                '</div>' + 
-            '</div>');
-
-            $('.coffee_box').fadeIn(200);
-            $('#coffee_pot').focus();
-            $('#coffee_pot').keyup( function(event) {	
-
-              var theInput = $('#coffee_pot').val();
-
-              $.getJSON(Drupal.settings.basePath + 'admin/coffee/result/' + theInput, function(data) {
-                var coffee_content = '';
-                coffee_content += '<ol>';
-                $('#coffee_cups').slideDown();
-                var items = [];
-                
-                // initialize the index of the result list
-                var tab = 0;
-                $.each(data, function(key, value) {
-                  tab++;
-                  coffee_content += '<li><a id="result_'+ tab + '" href="' + Drupal.settings.basePath + value.path +'" alt="'+ value.title +'"><strong>' + value.title +'</strong><small>'+ value.path +'</small></a></li>';
-                });
-                
-                coffee_content += '</ol>';
-
-                // clean up the result list and insert the new list
-                $('#coffee_cups').empty();
-                $('#coffee_cups').append(coffee_content);	
-              });
-
-            });
-            //          set the coffee box true
-            coffee_active = true;
-
-          } else {
-            // alt + d || esc || enter
-            if (((e.keyCode == 68 && e.altKey == true) || e.keyCode == 27 || e.keyCode == 13) && coffee_active == true) {
-              // if enter goto href from first result
-              if (e.keyCode == 13) {
-                // enter is pressed on a link, follow that link
-                if (e.srcElement.href) {
-                  location.href = e.srcElement.href;
-                } 
-                // if enter is pressed in the input than follow the first result
-                else {
-                  var linkFirstResult = $('#coffee_cups a#result_1').attr('href');
-                  if (linkFirstResult != '') {
-                    // if enter is given in the input box
-                    // go to the first result
-                    location.href = linkFirstResult;
-                  }
-                }
-              }
-
-              // remove the coffee_box
-              $('.coffee_box').remove();
-              coffee_active = false;
-            }
-
-            // on down focus the next element (instead using tab)
-            if ( typeof currentElement == 'undefined' ) {
-              // perform the initilization
-              currentElement = 0;
-            }
-            if (coffee_active == true && e.keyCode == 40) {
-              e.preventDefault();
-
-              // the max of items == 7
-              if (currentElement > 6) {
-                currentElement = 6;
-              }
-
-              currentElement++;
-
-              // if the focus is in the input
-              if (e.target.id == 'coffee_pot') {
-                $('#coffee_cups a#result_'+currentElement).focus();
-              } 
-              else {
-                $('#coffee_cups a#result_'+currentElement).focus();
-              }
-            }
-
-            //  on key up focus the above element (instead using shift+tab)
-            if (coffee_active == true && e.keyCode == 38) {
-              currentElement--;
-
-              if (currentElement < 2) {
-                currentElement = 1;
-              }
-
-              $('#coffee_cups a#result_'+currentElement).focus();
-            }
-          }
+        $.getJSON(Drupal.settings.basePath + 'admin/coffee/result/' + query, function (data) {
+          $.each(data, function (key, value) {
+            var description = $('<small class="description" />').text(value.path);
+            $('<a />').text(value.title)
+              .attr('href', Drupal.settings.basePath + value.path)
+              .append(description)
+              .appendTo(placeholder)
+              .wrap('<li />');
+          });
+          results.html(placeholder.children());
         });
+      });
+    }
+
+    // Form closing and redirect handling.
+    // Use enter directly from the search field to go to the first result
+    // Close the form manually with esc or alt + D
+    else if (form.is(':visible') && ( event.keyCode == 13 || event.keyCode === 27 || (event.altKey === true && event.keyCode === 68) )) {
+      event.preventDefault();
+      field.val('');
+      results.empty();
+      form.hide();
+      focusedResult = 0;
+      
+      if (event.keyCode == 13 && !event.srcElement.href && results.children().length) {
+        document.location = results.find('a:first').attr('href');
       }
-  };
+    }
+    
+    // Use the arrow up key to navigate up in the results
+    else if (form.is(':visible') && results.children().length && event.keyCode === 38) {
+      event.preventDefault();
+      
+      // Go to the last result if at the first result or at the search box
+      if (focusedResult < 2) {
+        focusedResult = results.children().length;
+        results.find('a:last').focus();
+      }
+      else {
+        --focusedResult;
+        results.find('li:nth-child(' + focusedResult + ') a').focus();
+      }
+    }
+    
+    // Use the arrow down key to navigate down in the results
+    else if (form.is(':visible') && results.children().length && event.keyCode === 40) {
+      event.preventDefault();
+      
+      // Go to the first result if at the last result
+      if (focusedResult === results.children().length) {
+        focusedResult = 1;
+        results.find('a:first').focus();
+      }
+      else {
+        ++focusedResult;
+        results.find('li:nth-child(' + focusedResult + ') a').focus();
+      }
+    }
+    
+  });
 
 }(jQuery));
