@@ -42,7 +42,7 @@
       var redirectPath = null;
 
       // Redirect to a result when enter is used on the link for it.
-      // Redirect to the first result when no href is found, we assume that this is the search field.
+      // Redirect to the first result when no href is found; we assume that the active element is the search field.
       if (event.keyCode === 13 && results.children().length) {
         redirectPath = event.srcElement.href ? event.srcElement.href : results.find('a:first').attr('href');
       }
@@ -77,12 +77,8 @@
       
       var activeElement = $(document.activeElement);
       
-      // Go to the first result if at the last result
-      if (activeElement[0] === results.find('a:last')[0]) {
-        results.find('a:first').focus();
-      }
-      // Jump into the results list if at the search field
-      else if (activeElement[0] === field[0]) {
+      // Go to the first result if at the last result or at the search field
+      if (activeElement[0] === results.find('a:last')[0] || activeElement[0] === field[0]) {
         results.find('a:first').focus();
       }
       else {
