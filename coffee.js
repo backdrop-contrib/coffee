@@ -3,15 +3,15 @@
   var label         = $('<label for="coffee-q" class="element-invisible" />').text(Drupal.t('Query')),
       field         = $('<input id="coffee-q" type="text" autocomplete="off" />'),
       results       = $('<ol id="coffee-results" />'),
-      form          = $('<form id="coffee-form" />'),
-      focusedResult = 0;
+      focusedResult = 0,
+      form          = $('<form id="coffee-form" />');
   
   $(document).ready(function () {
     form.append(label).append(field).append(results).wrapInner('<div id="coffee-form-inner" />').appendTo('body').hide();
   })
   .keydown(function (event) {
     
-    // Show the form with ALT + D
+    // Show the form with alt + D
     if (!form.is(':visible') && event.altKey === true && event.keyCode === 68) {
       event.preventDefault();
       form.show();
@@ -37,15 +37,24 @@
     // Form closing and redirect handling.
     // Use enter directly from the search field to go to the first result
     // Close the form manually with esc or alt + D
-    else if (form.is(':visible') && ( event.keyCode == 13 || event.keyCode === 27 || (event.altKey === true && event.keyCode === 68) )) {
+    else if (form.is(':visible') && ( event.keyCode === 13 || event.keyCode === 27 || (event.altKey === true && event.keyCode === 68) )) {
       event.preventDefault();
+      
+      var redirectPath = null;
+
+      // Redirect to a result when enter is used on the link for it.
+      // Redirect to the first result when no href is found, we assume that this is the search field.
+      if (event.keyCode === 13 && results.children().length) {
+        redirectPath = event.srcElement.href ? event.srcElement.href : results.find('a:first').attr('href');
+      }
+      
       field.val('');
       results.empty();
-      form.hide();
       focusedResult = 0;
+      form.hide();
       
-      if (event.keyCode == 13 && !event.srcElement.href && results.children().length) {
-        document.location = results.find('a:first').attr('href');
+      if (redirectPath) {
+        document.location = redirectPath;
       }
     }
     
