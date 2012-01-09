@@ -18,9 +18,10 @@
       moveFocus = function (direction) {
         var activeElement = $(document.activeElement);
     
-        // Jump to the first/last result if at the last/first or at the search field.
+        // Loop around the results when at the first or last, or at the search field.
+        // Skip the first result if it already has the fake focus class.
         if (activeElement[0] === results.find('a:' + (direction === 'up' ? 'first' : 'last'))[0] || activeElement[0] === field[0]) {
-          results.find('a:' + (direction === 'up' ? 'last' : 'first')).focus();
+          results.find((direction === 'down' && $('#coffee-results .focus').length ? 'li:nth-child(2) ' : '') + 'a:' + (direction === 'up' ? 'last' : 'first')).focus();
         }
         else if (direction === 'up') {
           activeElement.parent().prev().find('a').focus();
@@ -35,6 +36,9 @@
   // http://api.jquery.com/live/
   $('#coffee-results a').live('hover', function () {
     $(this).focus();
+  // Remove the fake focus class once actual focus is used
+  }).live('focus', function () {
+    $('#coffee-results .focus').removeClass('focus');
   });
   
   
@@ -62,7 +66,9 @@
               .appendTo(placeholder)
               .wrap('<li />');
           });
-          results.html(placeholder.children());
+          
+          // Highlight the first result as if it were focused as a visual hint for using the enter key from the search field
+          results.html(placeholder.children()).find('a:first').addClass('focus');
         });
       });
       
@@ -76,7 +82,7 @@
 
       var redirectPath = null;
 
-      // When no srcElement.href is found, we assume that the active element is the search field.
+      // We assume that the active element is the search field when srcElement.href isn't available
       if (event.keyCode === 13 && results.children().length) {
         redirectPath = event.srcElement.href ? event.srcElement.href : results.find('a:first').attr('href');
       }
