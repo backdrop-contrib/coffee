@@ -58,17 +58,19 @@
             placeholder = $('<ol />');
 
         $.getJSON(Drupal.settings.basePath + 'admin/coffee/result/' + query, function (data) {
-          $.each(data, function (key, value) {
-            var description = $('<small class="description" />').text(value.path);
-            $('<a />').text(value.title)
-              .attr('href', Drupal.settings.basePath + value.path)
-              .append(description)
-              .appendTo(placeholder)
-              .wrap('<li />');
-          });
+          if (data) {
+            $.each(data, function (key, value) {
+              var description = $('<small class="description" />').text(value.path);
+              $('<a />').text(value.title)
+                .attr('href', Drupal.settings.basePath + value.path)
+                .append(description)
+                .appendTo(placeholder)
+                .wrap('<li />');
+            });
           
-          // Highlight the first result as if it were focused as a visual hint for using the enter key from the search field
-          results.html(placeholder.children()).find('a:first').addClass('focus');
+            // Highlight the first result as if it were focused as a visual hint for using the enter key from the search field
+            results.html(placeholder.children()).find('a:first').addClass('focus');
+          }
         });
       });
       
@@ -77,7 +79,7 @@
 
     // Redirect to a result when the enter key is used on the link for it.
     // Redirect to the first result when the enter key is used in the search field.
-    // Close the form automatically after redirecting or manually with esc or alt + D.
+    // Close the form automatically when redirecting or manually with esc or alt + D.
     else if (form.is(':visible') && ( event.keyCode === 13 || event.keyCode === 27 || (event.altKey === true && event.keyCode === 68) )) {
 
       var redirectPath = null;
