@@ -9,7 +9,7 @@
  */
 
 /**
- * Implements hook_permission();
+ * Implements hook_permission().
  */
 function coffee_permission() {
   return array(
@@ -21,7 +21,7 @@ function coffee_permission() {
 }
 
 /**
- * Implements hook_menu();
+ * Implements hook_menu().
  */
 function coffee_menu() {
 
@@ -89,7 +89,7 @@ function coffee_init() {
     drupal_add_js(drupal_get_path('module', 'coffee') . '/coffee.js', array('type' => 'file'));
     drupal_add_css(drupal_get_path('module', 'coffee') . '/coffee.css', array('type' => 'file'));
 
-    // include the default hooks for coffe
+    // include the default hooks for coffee
     module_load_include('inc', 'coffee', 'coffee.hooks');
   }
 

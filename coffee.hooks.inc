@@ -9,7 +9,7 @@
  * The default implementation of Coffee
  * It will look in the menu_links table for
  * administrative links based on the user input
- * @param unknown_type $input
+ * @param string $input
  */
 function coffee_redirect($input) {
 
@@ -80,7 +80,7 @@ function coffee_coffee_action($op) {
   switch ($op) {
     case 'help' :
       $return['help'] = array(
-        'path' => 'admin/coffee/help',
+        'path' => 'admin/help/coffee',
         'title' => 'Coffee Help',
       );
       break;
