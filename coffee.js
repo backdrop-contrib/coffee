@@ -21,7 +21,7 @@
         // Loop around the results when at the first or last, or at the search field.
         // Skip the first result if it already has the fake focus class.
         if (activeElement[0] === results.find('a:' + (direction === 'up' ? 'first' : 'last'))[0] || activeElement[0] === field[0]) {
-          results.find((direction === 'down' && $('#coffee-results .focus').length ? 'li:nth-child(2) ' : '') + 'a:' + (direction === 'up' ? 'last' : 'first')).focus();
+          results.find((direction === 'down' && results.find('.focus').length ? 'li:nth-child(2) ' : '') + 'a:' + (direction === 'up' ? 'last' : 'first')).focus();
         }
         else if (direction === 'up') {
           activeElement.parent().prev().find('a').focus();
@@ -38,7 +38,7 @@
     $(this).focus();
   // Remove the fake focus class once actual focus is used
   }).live('focus', function () {
-    $('#coffee-results .focus').removeClass('focus');
+    results.find('.focus').removeClass('focus');
   });
   
   
