@@ -93,11 +93,29 @@ function coffee_redirect($input) {
  */
 function coffee_coffee_action($op) {
   switch ($op) {
+
+    // example usage of how a result array should be formatted.
     case 'help' :
       $return['help'] = array(
         'path' => 'admin/help/coffee',
         'title' => 'Coffee Help',
       );
+      break;
+
+    // display the links of the node/add page
+    case 'add' :
+      // this method is used in the core nodes module
+      $path = 'node/add';
+      $item = menu_get_item($path);
+      $content_types = system_admin_menu_block($item);
+
+      $return = array();
+      foreach ($content_types as $content_type) {
+        $return[] = array(
+          'path' => $content_type['link_path'],
+          'title' => $content_type['link_title'],
+        );
+      }
       break;
   }
 
