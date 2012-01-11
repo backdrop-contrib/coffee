@@ -35,7 +35,7 @@
 }
 
 #coffee-q {
-  background: #ddd;
+  background: #d1d1d1;
   color: #000;
   border: 0;
   font: 36px sans-serif;
@@ -68,7 +68,7 @@
 #coffee-results a:hover,
 #coffee-results a:focus,
 #coffee-results a.focus {
-  background: #ddd;
+  background: #d1d1d1;
   color: #000;
 }
 
@@ -76,4 +76,10 @@
   display: block;
   font-size: 11px;
   color: #888;
+}
+
+#coffee-results a:hover .description,
+#coffee-results a:focus .description,
+#coffee-results a.focus .description {
+  color: #666;
 }
