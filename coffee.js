@@ -18,19 +18,19 @@
         $(document).keydown(function (event) {
 
           // Show the form with alt + D
-          if (!Drupal.coffee.form.is(':visible') && event.altKey === true && (event.keyCode === 68 || event.keyCode === 206) ) {
+          if ( !Drupal.coffee.form.is(':visible') && event.altKey === true && (event.keyCode === 68 || event.keyCode === 206) ) {
             Drupal.coffee.open();
             event.preventDefault();
           }
 
           // Close the form with esc or alt + D
-          else if (Drupal.coffee.form.is(':visible') && ( event.keyCode === 27 || (event.altKey === true && (event.keyCode === 68 || event.keyCode === 206) ))) {
+          else if ( Drupal.coffee.form.is(':visible') && (event.keyCode === 27 || (event.altKey === true && (event.keyCode === 68 || event.keyCode === 206))) ) {
             Drupal.coffee.close();
             event.preventDefault();
           }
 
           // Use the arrow up/down keys to navigate trough the results
-          else if (Drupal.coffee.form.is(':visible') && Drupal.coffee.results.children().length && (event.keyCode === 38 || event.keyCode === 40)) {
+          else if ( Drupal.coffee.form.is(':visible') && Drupal.coffee.results.children().length && (event.keyCode === 38 || event.keyCode === 40) ) {
             Drupal.coffee.move(event.keyCode === 38 ? 'up' : 'down');
             event.preventDefault();
           }
@@ -38,7 +38,6 @@
           // Redirect to a result when the enter key is used on the link for it.
           // Redirect to the first result when the enter key is used in the search field.
           // We assume that the active element is the search field when srcElement.href isn't available.
-          // Also: enter does nothing when there are no results.
           else if (Drupal.coffee.form.is(':visible') && event.keyCode === 13) {
             if (Drupal.coffee.results.children().length) {
               Drupal.coffee.redirect(event.srcElement.href ? event.srcElement.href : Drupal.coffee.results.find('a:first').attr('href'));
@@ -56,7 +55,7 @@
         // Remove the fake focus class once actual focus is used
         }).live('focus', function () {
           Drupal.coffee.results.find('.focus').removeClass('focus');
-        // We close the form explicitly after opening a result as pages aren't reloaded in case of overlay usage
+        // We close the form explicitly after following a link as pages aren't reloaded when using the overlay module
         }).live('click', function () {
           Drupal.coffee.close();
         });
@@ -80,8 +79,8 @@
   Drupal.coffee.move = function (direction) {
     var activeElement = $(document.activeElement);
 
-    // Loop around the results when at the first or last, or at the search field.
-    // Skip the first result if it already has the fake focus class.
+    // Jump to the last result if 'up' is used at the first, and to the first result if 'down' is used on the last.
+    // When in the search field: skip the first result if it already has the fake focus class.
     if (activeElement[0] === Drupal.coffee.results.find('a:' + (direction === 'up' ? 'first' : 'last'))[0] || activeElement[0] === Drupal.coffee.field[0]) {
       Drupal.coffee.results.find((direction === 'down' && Drupal.coffee.results.find('.focus').length ? 'li:nth-child(2) ' : '') + 'a:' + (direction === 'up' ? 'last' : 'first')).focus();
     }
