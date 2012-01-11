@@ -25,29 +25,26 @@
             event.preventDefault();
           }
 
-          // Redirect to a result when the enter key is used on the link for it.
-          // Redirect to the first result when the enter key is used in the search field.
-          // Close the form automatically when redirecting or manually with esc or alt + D.
-          else if (Drupal.coffee.form.is(':visible') && ( event.keyCode === 13 || event.keyCode === 27 || (event.altKey === true && event.keyCode === 68) )) {
-
-            var redirectPath = null;
-
-            // We assume that the active element is the search field when srcElement.href isn't available
-            if (event.keyCode === 13 && Drupal.coffee.results.children().length) {
-              redirectPath = event.srcElement.href ? event.srcElement.href : Drupal.coffee.results.find('a:first').attr('href');
-            }
-      
+          // Close the form with esc or alt + D
+          else if (Drupal.coffee.form.is(':visible') && ( event.keyCode === 27 || (event.altKey === true && event.keyCode === 68) )) {
             Drupal.coffee.close();
-      
-            if (redirectPath) {
-              document.location = redirectPath;
-            }
             event.preventDefault();
           }
     
           // Use the arrow up/down keys to navigate trough the results
           else if (Drupal.coffee.form.is(':visible') && Drupal.coffee.results.children().length && (event.keyCode === 38 || event.keyCode === 40)) {
             Drupal.coffee.move(event.keyCode === 38 ? 'up' : 'down');
+            event.preventDefault();
+          }
+
+          // Redirect to a result when the enter key is used on the link for it.
+          // Redirect to the first result when the enter key is used in the search field.
+          // We assume that the active element is the search field when srcElement.href isn't available.
+          // Also: enter does nothing when there are no results.
+          else if (Drupal.coffee.form.is(':visible') && event.keyCode === 13) {
+            if (Drupal.coffee.results.children().length) {
+              Drupal.coffee.redirect(event.srcElement.href ? event.srcElement.href : Drupal.coffee.results.find('a:first').attr('href'));
+            }
             event.preventDefault();
           }
     
@@ -93,6 +90,11 @@
     else {
       activeElement.parent().next().find('a').focus();
     }
+  };
+  
+  Drupal.coffee.redirect = function (path) {
+    Drupal.coffee.close();
+    document.location = path;
   };
   
   
