@@ -9,13 +9,11 @@
         var body = $(this);
         
         Drupal.coffee.bg.appendTo(body).hide();
-    
-        Drupal.coffee.form.append(Drupal.coffee.label)
-          .append(Drupal.coffee.field)
-          .append(Drupal.coffee.results)
-          .wrapInner('<div id="coffee-form-inner" />')
-          .appendTo(body)
-          .hide();
+        
+        Drupal.coffee.label.appendTo(Drupal.coffee.form);
+        Drupal.coffee.field.appendTo(Drupal.coffee.form);
+        Drupal.coffee.results.appendTo(Drupal.coffee.form);
+        Drupal.coffee.form.wrapInner('<div id="coffee-form-inner" />').appendTo(body).hide();
     
         $(document).keydown(function (event) {
     
@@ -58,6 +56,7 @@
         // Remove the fake focus class once actual focus is used
         }).live('focus', function () {
           Drupal.coffee.results.find('.focus').removeClass('focus');
+        // We close the form explicitly after opening a result as pages aren't reloaded in case of overlay usage
         }).live('click', function () {
           Drupal.coffee.close();
         });
@@ -100,12 +99,14 @@
   };
   
   
-  // The form elements
+  // The elements
   
   Drupal.coffee.label = $('<label for="coffee-q" class="element-invisible" />').text(Drupal.t('Query'));
   
   Drupal.coffee.results = $('<ol id="coffee-results" />');
   
+  // Instead of appending results one by one, we put them in a placeholder element
+  // first and then append them all at once to prevent flickering while typing.
   Drupal.coffee.resultsPlaceholder = $('<ol />');
   
   Drupal.coffee.form = $('<form id="coffee-form" />');
@@ -128,7 +129,7 @@
             .wrap('<li />');
         });
           
-        // Highlight the first result as if it were focused as a visual hint for
+        // Highlight the first result as if it were focused, as a visual hint for
         // what will happen when using the enter key in the search field.
         Drupal.coffee.results.html(Drupal.coffee.resultsPlaceholder.children()).find('a:first').addClass('focus');
       }
