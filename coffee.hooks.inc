@@ -49,31 +49,36 @@ function coffee_redirect($input) {
   ->condition('ml.link_path', '%help%', 'NOT LIKE')
 
   // filter out empty link_title
-  ->condition('ml.link_title', '%%', '<>')
+  ->condition('ml.link_title', '%%', '<>');
 
-  // search also in the description of a menu link in the menu_router table
-  //->condition('mr.description', $input, 'LIKE')
-
-  // limit the result set to 7
-  ->range(0, 7);
-
+  // execute the query above
   $result = $query->execute();
 
   if (is_object($result)) {
     $return = array();
     foreach ($result as $record) {
-      $return[] = array(
-        'path' => $record->link_path,
-        'title' => $record->link_title,
-        'description' => $record->description,
-      );
-    }
 
+      // Load the menu item and check if the user has persmission
+      $item = menu_get_item($record->link_path);
+
+      // only add items to the return array if the user has access
+      if ($item['access']) {
+        $return[] = array(
+          'path' => $record->link_path,
+          'title' => $record->link_title,
+        );
+      }
+    }
   }
   else {
     return FALSE;
   }
 
+  // return only a slice of a maximum of 7 results
+  if (is_array($return)) {
+    $number_of_items = variable_get('coffee_number_of_results', 7);
+    $return = array_slice($return, 0, $number_of_items);
+  }
   return $return;
 
 }
