@@ -33,7 +33,7 @@
             var redirectPath = null;
 
             // We assume that the active element is the search field when srcElement.href isn't available
-            if (event.keyCode === 13 && results.children().length) {
+            if (event.keyCode === 13 && Drupal.coffee.results.children().length) {
               redirectPath = event.srcElement.href ? event.srcElement.href : Drupal.coffee.results.find('a:first').attr('href');
             }
       
