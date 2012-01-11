@@ -58,6 +58,8 @@
         // Remove the fake focus class once actual focus is used
         }).live('focus', function () {
           Drupal.coffee.results.find('.focus').removeClass('focus');
+        }).live('click', function () {
+          Drupal.coffee.close();
         });
       });
     }
