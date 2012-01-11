@@ -114,7 +114,7 @@ function coffee_help($path, $arg) {
       <p>
        <dl>
         <dt>Open Coffee<dt>
-         <dd>Press alt + d to fire up Coffee (alt + shift + d in opera) - an input box will show up</dd>
+         <dd>Press alt + d to fire up Coffee (alt + shift + d in opera or ctrl + alt + d in Internet Explorer) - an input box will show up</dd>
          <dt>Search</dt>
          <dd>Type the title or path of the page you want to visit</dt>
 				 <dt>Navigating in the result list</dt>
