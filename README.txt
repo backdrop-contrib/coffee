@@ -15,3 +15,12 @@ Usage:
 - hit enter to visit the first result
 - navigate in the result list with arrow down and arrow up
 - hit enter to visit that result
+- actions that are defined by hook_coffee_action() always have a colon prefix, e.g. :help
+
+
+Default actions:
+:add
+Will return a list of the Add content page, so you can quickly add content.
+
+:help
+Will return a link to the help page
