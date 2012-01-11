@@ -7,7 +7,7 @@ see API.txt for documentation.
 It is inspired by Alfred / Spotlight on OS X.
 
 Usage:
-- alt + d: to open or close Coffee
+- alt + d: to open or close Coffee (alt + shift + d in opera)
 - esc: close Coffee
 - type directly the page you're looking for (path or title)
 - hit enter to visit the first result
