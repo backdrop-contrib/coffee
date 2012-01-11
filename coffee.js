@@ -24,7 +24,7 @@
           }
 
           // Close the form with esc or alt + D
-          else if (Drupal.coffee.form.is(':visible') && ( event.keyCode === 27 || (event.altKey === true && (event.keyCode === 68 || event.keyCode === 206) )) {
+          else if (Drupal.coffee.form.is(':visible') && ( event.keyCode === 27 || (event.altKey === true && (event.keyCode === 68 || event.keyCode === 206) ))) {
             Drupal.coffee.close();
             event.preventDefault();
           }
