@@ -17,7 +17,7 @@
 
         $(document).keydown(function (event) {
 
-          // Show the form with alt + D
+          // Show the form with alt + D. Use 2 keycodes as 'D' can be uppercase or lowercase
           if ( !Drupal.coffee.form.is(':visible') && event.altKey === true && (event.keyCode === 68 || event.keyCode === 206) ) {
             Drupal.coffee.open();
             event.preventDefault();
