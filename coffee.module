@@ -125,6 +125,8 @@ function coffee_help($path, $arg) {
       ';
       break;
   }
-  return $output;
+  if (isset($output)) {
+    return $output;
+  }
 
 }
