@@ -47,13 +47,14 @@
 
         });
 
-        // Prevent multiple highlighted results with :hover and :focus.
+        // Prevent multiple highlighted results with :hover and :focus ==>> Temporarily disabled because of Firefox issues (http://drupal.org/node/1400852)
         // .live() is deprecated ==>> convert to .on() when Drupal gets jQuery 1.7+
         // http://api.jquery.com/live/
-        $('#coffee-results a').live('hover', function () {
-          $(this).focus();
+        $('#coffee-results a')// .live('hover', function () {
+          // $(this).focus();
+        // })
         // Remove the fake focus class once actual focus is used
-        }).live('focus', function () {
+        .live('focus', function () {
           Drupal.coffee.results.find('.focus').removeClass('focus');
         // We close the form explicitly after following a link as pages aren't reloaded when using the overlay module
         }).live('click', function () {
