@@ -9,7 +9,7 @@
  * The default implementation of Coffee.
  * It will look in the menu_links table for administrative links based on
  * the user input
- * @param 
+ * @param
  *   $input
  */
 function coffee_redirect($input) {
