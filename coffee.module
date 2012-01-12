@@ -53,15 +53,15 @@ function coffee_result_handler($input = FALSE) {
 
   // based on the first char coffee should handle a function callback
   // or the basic functionality (redirecting to paths)
-  $action_trigger = ':';
+  $command_trigger = ':';
 
-  // if the $action_trigger is fired
-  // invoke all implementations of hook_coffee_action()
-  if (strstr(check_plain(urldecode($input)), $action_trigger)) {
-    // execute action, invode hook_coffee
-    foreach (module_implements('coffee_action') as $module) {
-      $op = str_ireplace($action_trigger, '', $input);
-      $result = module_invoke($module, 'coffee_action', $op);
+  // if the $command_trigger is fired
+  // invoke all implementations of hook_coffee_command()
+  if (strstr(check_plain(urldecode($input)), $command_trigger)) {
+    // execute command, invode hook_coffee
+    foreach (module_implements('coffee_command') as $module) {
+      $op = str_ireplace($command_trigger, '', $input);
+      $result = module_invoke($module, 'coffee_command', $op);
     }
   }
   else {
