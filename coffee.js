@@ -40,7 +40,7 @@
           // We assume that the active element is the search field when srcElement.href isn't available.
           else if (Drupal.coffee.form.is(':visible') && event.keyCode === 13) {
             if (Drupal.coffee.results.children().length) {
-              Drupal.coffee.redirect(event.srcElement.href ? event.srcElement.href : Drupal.coffee.results.find('a:first').attr('href'));
+              Drupal.coffee.redirect(event.srcElement && event.srcElement.href ? event.srcElement.href : Drupal.coffee.results.find('a:first').attr('href'));
             }
             event.preventDefault();
           }
