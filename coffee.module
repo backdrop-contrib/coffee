@@ -16,7 +16,7 @@ function coffee_permission() {
     'access coffee' => array(
       'title' => t('Access Coffee'),
       'description' => t('Access the Coffee search box to navigate fast between admin pages'),
-  ),
+    ),
   );
 }
 
@@ -25,7 +25,7 @@ function coffee_permission() {
  */
 function coffee_menu() {
 
-  // define menu callback for ajax calls to handle the results
+  // Define menu callback for ajax calls to handle the results.
   $items['admin/coffee/result/%'] = array(
     'title' => 'Coffee Result Handler',
     'page callback' => 'coffee_result_handler',
@@ -40,38 +40,36 @@ function coffee_menu() {
 /**
  * Handler for Coffee
  *
- * The coffee_result_hanlder will process the input,
+ * The coffee_result_handler will process the input,
  * look for matches and returns a json encoded result that is used
  * in the javascript to display the results.
  *
- * @param
- *    string $input is used to build the query
- * @return
- *    json encoded output with results based on the $input
+ * @param $input
+ *    String is used to build the query.
+ * @return string
+ *    JSON encoded output with results based on the input.
  */
 function coffee_result_handler($input = FALSE) {
 
-  // based on the first char coffee should handle a function callback
-  // or the basic functionality (redirecting to paths)
+  // Based on the first char coffee should handle a function callback.
+  // Or it should handle the basic functionality (redirecting to paths).
   $command_trigger = ':';
 
-  // if the $command_trigger is fired
-  // invoke all implementations of hook_coffee_command()
+  // Invoke all implementations of hook_coffee_command() on command_trigger.
   if (strstr(check_plain(urldecode($input)), $command_trigger)) {
-    // execute command, invode hook_coffee
+    // Execute command, invode hook_coffee.
     foreach (module_implements('coffee_command') as $module) {
       $op = str_ireplace($command_trigger, '', $input);
       $result = module_invoke($module, 'coffee_command', $op);
     }
   }
   else {
-    // is should fire the default implementation of Coffee
-    // it invokes the coffee_redirect function to look in the menu_links table
+    // Fire the default implementation of Coffee.
     $result = coffee_redirect($input);
   }
 
   if (!empty($result)) {
-    // return should be in json format so the JavaScript can handle it
+    // Return should be in json format so the JavaScript can handle it.
     print json_encode($result);
   }
   drupal_exit();
@@ -80,16 +78,15 @@ function coffee_result_handler($input = FALSE) {
 
 /**
  * Implements hook_init().
- * Users with the permission 'access coffee' can fire up Coffee
  */
 function coffee_init() {
-  // only users with the permission access coffee can use coffee
+  // Only users with the permission access Coffee can use Coffee.
   if (user_access('access coffee')) {
-    // add the javascript and css files
+    // Add the javascript and css files.
     drupal_add_js(drupal_get_path('module', 'coffee') . '/coffee.js', array('type' => 'file'));
     drupal_add_css(drupal_get_path('module', 'coffee') . '/coffee.css', array('type' => 'file'));
 
-    // include the default hooks for coffee
+    // Include the default hooks for Coffee.
     module_load_include('inc', 'coffee', 'coffee.hooks');
   }
 
@@ -126,7 +123,8 @@ function coffee_help($path, $arg) {
        </dl>
       </p>
       ';
-
-  return $output;
+      break;
   }
+  return $output;
+
 }

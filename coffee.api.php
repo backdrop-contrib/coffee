@@ -16,14 +16,15 @@
  * This hook is run when the input in Coffee starts with a colon (:), it passes
  * the keyword after the colon as parameter to the hook.
  *
- * You can define your own operators
+ * You can define your own operators.
+ *
  * @param $op
  *   This is the keyword used after the colon.
  * @return
  *   An associative array whose keys are unique and whose values are an
  *   associative array containing:
- *   - title: A string used to display the title
- *   - path: A string used for redirection to the path
+ *   - title: A string used to display the title.
+ *   - path: A string used for redirection to the path.
  *
  *   Although there isn't a limitation of a maximum number of items to display,
  *   please consider a maximum of 7 items or less, this because of the
@@ -32,17 +33,17 @@
 function hook_coffee_command($op) {
 
   switch ($op) {
-    // is called when a user inputs :your operator
+    // Is called when a user inputs :your operator.
     case 'your operator':
 
       $return = array(
         'item 1' => array(
-          'path' => '', // path of the link used for redirection
-          'title' => '', // used for display
+          'path' => '',
+          'title' => '',
         ),
         'item 2' => array(
-          'path' => '', // path of the link used for redirection
-          'title' => '', // used for display
+          'path' => '',
+          'title' => '',
         ),
       );
     break;
