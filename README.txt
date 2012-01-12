@@ -2,7 +2,7 @@ Coffee is a module that helps site administrator to navigate real fast through t
 When you hit alt+d a search box appears and you can type directly the page you'll looking for.
 
 There is also the possibility to create your own list with the hook_coffee_command($op)
-see API.txt for documentation. 
+see coffee.api.php for documentation. 
 
 It is inspired by Alfred / Spotlight on OS X.
 
