@@ -2,7 +2,7 @@
 /**
  * @file
  * The hooks that are used by Coffee
- * includes an example of hook_coffee_action()
+ * includes an example of hook_coffee_command()
  */
 
 /**
@@ -84,14 +84,11 @@ function coffee_redirect($input) {
 }
 
 /**
- * Implements hook_coffee_action();
- * When you type :help in Coffee this hook will fire
- * @param string $op
+ * Implements hook_coffee_command();
  * @return
  * a array that can be used by Coffee
- * in this case a link to the Coffee help page
  */
-function coffee_coffee_action($op) {
+function coffee_coffee_command($op) {
   switch ($op) {
 
     // example usage of how a result array should be formatted.
@@ -117,6 +114,14 @@ function coffee_coffee_action($op) {
         );
       }
       break;
+
+    // clear cache command
+    case 'cc' :
+      $return['cc'] = array(
+        'path' => '',
+        'title' => t('Clear Cache'),
+      );
+      break;   
   }
 
   if (isset($return)) {
