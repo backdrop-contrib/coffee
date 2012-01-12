@@ -1,32 +1,40 @@
 <?php
 
+/**
+ * @file
+ * Hooks provided by Coffee module.
+ */
 
+/**
+ * @addtogroup hooks
+ * @{
+ */
 
+/**
+ * Extend the Coffee functionallity with your own commands.
+ *
+ * This hook is run when the input in Coffee starts with a colon (:), it passes
+ * the keyword after the colon as parameter to the hook.
+ *
+ * You can define your own operators
+ * @param $op
+ *   This is the keyword used after the colon.
+ * @return
+ *   An associative array whose keys are unique and whose values are an
+ *   associative array containing:
+ *   - title: A string used to display the title
+ *   - path: A string used for redirection to the path
+ *
+ *   Although there isn't a limitation of a maximum number of items to display,
+ *   please consider a maximum of 7 items or less, this because of the
+ *   usability of Coffee.
+ */
+function hook_coffee_command($op) {
 
-
-API
-
-
---
-Hooks
---
-hook_coffee_action();
-
-Use hook_coffee_action() to extend the functionallity of coffee.
-
-Implementations of hook_coffee_action are only called when the user type
-  :keyword
-(colon + keyword) the var $op contains only the keyword (without colon). 
-
-function hook_coffee_action($op) {
-  
   switch ($op) {
-    case 'your operator': // the code below is called when :your operator is typed
-      // your code to make a list
-      
-      // return an associative array with the list to display in coffee
-      // although there isn't a limitation of a maximum number of items, 
-      // consider a maximum of 7 items or less, because of the fixed position of Coffee in the browser
+    // is called when a user inputs :your operator
+    case 'your operator':
+
       $return = array(
         'item 1' => array(
           'path' => '', // path of the link used for redirection
@@ -40,8 +48,12 @@ function hook_coffee_action($op) {
     break;
   }
 
-  if( isset($return) {
+  if ( isset($return) ) {
     return $return;
   }
-  
+
 }
+
+/**
+ * @} End of "addtogroup hooks"
+ */
