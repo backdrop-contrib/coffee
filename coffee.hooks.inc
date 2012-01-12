@@ -6,10 +6,11 @@
  */
 
 /**
- * The default implementation of Coffee
- * It will look in the menu_links table for
- * administrative links based on the user input
- * @param string $input
+ * The default implementation of Coffee.
+ * It will look in the menu_links table for administrative links based on
+ * the user input
+ * @param 
+ *   $input
  */
 function coffee_redirect($input) {
 
@@ -84,9 +85,7 @@ function coffee_redirect($input) {
 }
 
 /**
- * Implements hook_coffee_command();
- * @return
- * a array that can be used by Coffee
+ * Implements hook_coffee_command().
  */
 function coffee_coffee_command($op) {
   switch ($op) {
@@ -115,13 +114,6 @@ function coffee_coffee_command($op) {
       }
       break;
 
-    // clear cache command
-    case 'cc' :
-      $return['cc'] = array(
-        'path' => '',
-        'title' => t('Clear Cache'),
-      );
-      break;   
   }
 
   if (isset($return)) {
