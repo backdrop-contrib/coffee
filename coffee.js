@@ -35,12 +35,10 @@
             event.preventDefault();
           }
 
-          // Redirect to a result when the enter key is used on the link for it.
-          // Redirect to the first result when the enter key is used in the search field.
-          // We assume that the active element is the search field when srcElement.href isn't available.
-          else if (Drupal.coffee.form.is(':visible') && event.keyCode === 13) {
+          // Enter key handling for the search field: redirect to the first result if there are any
+          else if (Drupal.coffee.form.is(':visible') && event.keyCode === 13 && $(document.activeElement)[0] === Drupal.coffee.field[0]) {
             if (Drupal.coffee.results.children().length) {
-              Drupal.coffee.redirect(event.srcElement && event.srcElement.href ? event.srcElement.href : Drupal.coffee.results.find('a:first').attr('href'));
+              Drupal.coffee.redirect(Drupal.coffee.results.find('a:first').attr('href'));
             }
             event.preventDefault();
           }
@@ -56,7 +54,7 @@
         // Remove the fake focus class once actual focus is used
         .live('focus', function () {
           Drupal.coffee.results.find('.focus').removeClass('focus');
-        // We close the form explicitly after following a link as pages aren't reloaded when using the overlay module
+        // We close the form explicitly after following a link as pages aren't reloaded when the overlay module is used
         }).live('click', function () {
           Drupal.coffee.close();
         });
@@ -78,10 +76,11 @@
   };
 
   Drupal.coffee.move = function (direction) {
+
     var activeElement = $(document.activeElement);
 
     // Jump to the last result if 'up' is used at the first, and to the first result if 'down' is used on the last.
-    // When in the search field: skip the first result if it already has the fake focus class.
+    // From the search field: skip the first result if it already has the fake focus class.
     if (activeElement[0] === Drupal.coffee.results.find('a:' + (direction === 'up' ? 'first' : 'last'))[0] || activeElement[0] === Drupal.coffee.field[0]) {
       Drupal.coffee.results.find((direction === 'down' && Drupal.coffee.results.find('.focus').length ? 'li:nth-child(2) ' : '') + 'a:' + (direction === 'up' ? 'last' : 'first')).focus();
     }
@@ -129,7 +128,7 @@
         });
 
         // Highlight the first result as if it were focused, as a visual hint for
-        // what will happen when using the enter key in the search field.
+        // what will happen when the enter key is used in the search field.
         Drupal.coffee.results.html(Drupal.coffee.resultsPlaceholder.children()).find('a:first').addClass('focus');
       }
     });
