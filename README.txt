@@ -1,8 +1,10 @@
-Coffee is a module that helps site administrator to navigate real fast through the admin pages.
-When you hit alt+d a search box appears and you can type directly the page you'll looking for.
+Coffee is a module that helps site administrator to navigate real fast through 
+the admin pages.
+When you hit alt+d a search box appears and you can type directly the page 
+you'll looking for.
 
-There is also the possibility to create your own list with the hook_coffee_command($op)
-see coffee.api.php for documentation. 
+There is also the possibility to create your own list with 
+the hook_coffee_command($op) see coffee.api.php for documentation. 
 
 It is inspired by Alfred / Spotlight on OS X.
 
@@ -15,7 +17,8 @@ Usage:
 - hit enter to visit the first result
 - navigate in the result list with arrow down and arrow up
 - hit enter to visit that result
-- commands that are defined by hook_coffee_command() always have a colon prefix, e.g. :help
+- commands that are defined by hook_coffee_command() always have a 
+colon prefix, e.g. :help
 
 
 Default command:
