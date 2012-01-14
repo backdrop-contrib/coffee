@@ -1,0 +1,12 @@
+<?php
+/**
+ * @file
+ * Provides installation details for Coffee.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function coffee_enable() {
+  drupal_set_message(t('The Coffee module was succesfully enabled, press alt+d to start Coffee'), 'status');
+}

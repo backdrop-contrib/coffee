@@ -1,29 +1,30 @@
-Coffee is a module that helps site administrator to navigate real fast through 
-the admin pages.
-When you hit alt+d a search box appears and you can type directly the page 
-you'll looking for.
+The Coffee module helps you to navigate through the Drupal admin faster,
+inspired by Alfred and Spotlight (OS X).
 
-There is also the possibility to create your own list with 
-the hook_coffee_command($op) see coffee.api.php for documentation. 
+How to use it
+Toggle Coffee using the keyboard shortcut alt + D
+(alt + shift + D in Opera, alt + ctrl + D in Windows Internet Explorer).
 
-It is inspired by Alfred / Spotlight on OS X.
+Type the first few characters of the task that you want to perform. Coffee
+will try to find the right result in as less characters as possible.
+For example, if you want to go the the Appearance admin page, type ap and
+just hit enter.
 
-Usage:
-- alt + d: to open or close Coffee
-(alt + shift + d in opera)
-(ctrl + alt + d in Internet Explorer)
-- esc: close Coffee
-- type directly the page you're looking for (path or title)
-- hit enter to visit the first result
-- navigate in the result list with arrow down and arrow up
-- hit enter to visit that result
-- commands that are defined by hook_coffee_command() always have a 
-colon prefix, e.g. :help
+If your search query returns multiple results, you can use the arrow up/down
+keys to choose the one you were looking for.
 
+This will work for all Drupal admin pages.
 
-Default command:
+In addition to that, there are several commands that you can use, listed below.
+
+Commands
 :add
-Will return a list of the Add content page, so you can quickly add content.
+
+Rapidly add content of a specific content type.
 
 :help
-Will return a link to the help page
+View the Coffee module help page.
+
+Hooks for developers
+You can define your own actions in your module with hook_coffee_command(),
+see coffee.api.php for further documentation.
