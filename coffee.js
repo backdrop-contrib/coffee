@@ -28,19 +28,19 @@ Drupal.behaviors.coffee = {
         var activeElement = $(document.activeElement);
 
         // Show the form with alt + D. Use 2 keycodes as 'D' can be uppercase or lowercase.
-        if ( !Drupal.coffee.form.is(':visible') && event.altKey === true && (event.keyCode === 68 || event.keyCode === 206) ) {
+        if (!Drupal.coffee.form.is(':visible') && event.altKey === true && (event.keyCode === 68 || event.keyCode === 206)) {
           Drupal.coffee.open();
           event.preventDefault();
         }
 
         // Close the form with esc or alt + D.
-        else if ( Drupal.coffee.form.is(':visible') && (event.keyCode === 27 || (event.altKey === true && (event.keyCode === 68 || event.keyCode === 206))) ) {
+        else if (Drupal.coffee.form.is(':visible') && (event.keyCode === 27 || (event.altKey === true && (event.keyCode === 68 || event.keyCode === 206)))) {
           Drupal.coffee.close();
           event.preventDefault();
         }
 
         // Use the arrow up/down keys to navigate trough the results.
-        else if ( Drupal.coffee.form.is(':visible') && Drupal.coffee.results.children().length && (event.keyCode === 38 || event.keyCode === 40) ) {
+        else if (Drupal.coffee.form.is(':visible') && Drupal.coffee.results.children().length && (event.keyCode === 38 || event.keyCode === 40)) {
           Drupal.coffee.move(event.keyCode === 38 ? 'prev' : 'next', activeElement);
           event.preventDefault();
         }
