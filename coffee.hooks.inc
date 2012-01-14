@@ -10,7 +10,7 @@
  * It will look in the menu_links table for administrative links based on
  * the user input
  *
- * @param $input
+ * @param string $input
  *   The user input that will be used to query the database.
  */
 function coffee_redirect($input) {
@@ -33,7 +33,7 @@ function coffee_redirect($input) {
   // Join menu_router table, for the menu link description.
   $query->innerJoin('menu_router', 'mr', 'ml.link_path = mr.path');
 
-  $query->fields('ml', array('link_path', 'link_title') );
+  $query->fields('ml', array('link_path', 'link_title'));
 
   $query->condition('ml.menu_name', 'management')
   ->condition(

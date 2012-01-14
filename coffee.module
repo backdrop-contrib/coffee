@@ -44,10 +44,11 @@ function coffee_menu() {
  * look for matches and returns a json encoded result that is used
  * in the javascript to display the results.
  *
- * @param $input
- *    String is used to build the query.
+ * @param string $input
+ *   String is used to build the query.
+ *
  * @return string
- *    JSON encoded output with results based on the input.
+ *   JSON encoded output with results based on the input.
  */
 function coffee_result_handler($input = FALSE) {
 

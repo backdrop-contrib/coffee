@@ -18,9 +18,10 @@
  *
  * You can define your own operators.
  *
- * @param $op
+ * @param string $op
  *   This is the keyword used after the colon.
- * @return
+ *
+ * @return array
  *   An associative array whose keys are unique and whose values are an
  *   associative array containing:
  *   - title: A string used to display the title.
@@ -46,10 +47,10 @@ function hook_coffee_command($op) {
           'title' => '',
         ),
       );
-    break;
+      break;
   }
 
-  if ( isset($return) ) {
+  if (isset($return)) {
     return $return;
   }
 
