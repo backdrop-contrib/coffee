@@ -68,7 +68,7 @@ function coffee_redirect($input) {
           'title' => $record->link_title,
         );
         // Make this the top item if the title is an exact match.
-        if (strtolower(trim($record->link_title)) == strtolower(trim($input, '% '))) {
+        if (drupal_strtolower(trim($record->link_title)) == drupal_strtolower(trim($input, '% '))) {
           array_unshift($return, $match);
         }
         else {

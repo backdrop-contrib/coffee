@@ -64,3 +64,4 @@ see coffee.api.php for further documentation.
 Current Maintainers: 
  * Michael Mol (michaelmol) - http://drupal.org/user/919186
  * Maarten Verbaarschot (maartenverbaarschot) - http://drupal.org/user/1305466
+ 
