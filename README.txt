@@ -1,7 +1,35 @@
+
+-- SUMMARY --
+
 The Coffee module helps you to navigate through the Drupal admin faster,
 inspired by Alfred and Spotlight (OS X).
 
-How to use it
+For a full description of the module, visit the project page:
+  http://drupal.org/sandbox/michaelmol/1356930
+
+To submit bug reports and feature suggestions, or to track changes:
+  http://drupal.org/project/issues/1356930
+
+
+-- REQUIREMENTS --
+
+None.
+
+-- INSTALLATIONS --
+
+* Install as usual, see http://drupal.org/node/70501 for further information.
+
+-- CONFIGURATION --
+
+* Configure user permissions in admin/people/permissions
+
+  - access coffee
+
+    Users in Roles with the "access coffee" permission can make use of the
+    Coffee module. 
+
+USAGE
+-----
 Toggle Coffee using the keyboard shortcut alt + D
 (alt + shift + D in Opera, alt + ctrl + D in Windows Internet Explorer).
 
@@ -15,16 +43,24 @@ keys to choose the one you were looking for.
 
 This will work for all Drupal admin pages.
 
-In addition to that, there are several commands that you can use, listed below.
 
-Commands
+COFFEE COMMANDS
+---------------
+Coffee provides some default commands that you can use.
+
 :add
-
 Rapidly add content of a specific content type.
 
 :help
 View the Coffee module help page.
 
-Hooks for developers
-You can define your own actions in your module with hook_coffee_command(),
+
+COFFEE HOOKS
+------------
+You can define your own commands in your module with hook_coffee_command(),
 see coffee.api.php for further documentation.
+
+-- CONTACT --
+Current Maintainers: 
+ * Michael Mol (michaelmol) - http://drupal.org/user/919186
+ * Maarten Verbaarschot (maartenverbaarschot) - http://drupal.org/user/1305466

@@ -63,10 +63,17 @@ function coffee_redirect($input) {
 
       // Only add items to the return array if the user has access.
       if ($item['access']) {
-        $return[] = array(
+        $match = array(
           'path' => $record->link_path,
           'title' => $record->link_title,
         );
+        // Make this the top item if the title is an exact match.
+        if (strtolower(trim($record->link_title)) == strtolower(trim($input, '% '))) {
+          array_unshift($return, $match);
+        }
+        else {
+          $return[] = $match;
+        }
       }
     }
   }
