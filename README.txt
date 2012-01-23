@@ -15,9 +15,11 @@ To submit bug reports and feature suggestions, or to track changes:
 
 None.
 
--- INSTALLATIONS --
+
+-- INSTALLATION --
 
 * Install as usual, see http://drupal.org/node/70501 for further information.
+
 
 -- CONFIGURATION --
 
@@ -28,8 +30,9 @@ None.
     Users in Roles with the "access coffee" permission can make use of the
     Coffee module. 
 
-USAGE
------
+
+-- USAGE --
+
 Toggle Coffee using the keyboard shortcut alt + D
 (alt + shift + D in Opera, alt + ctrl + D in Windows Internet Explorer).
 
@@ -44,8 +47,8 @@ keys to choose the one you were looking for.
 This will work for all Drupal admin pages.
 
 
-COFFEE COMMANDS
----------------
+-- COFFEE COMMANDS --
+
 Coffee provides some default commands that you can use.
 
 :add
@@ -55,10 +58,11 @@ Rapidly add content of a specific content type.
 View the Coffee module help page.
 
 
-COFFEE HOOKS
-------------
+-- COFFEE HOOKS --
+
 You can define your own commands in your module with hook_coffee_command(),
 see coffee.api.php for further documentation.
+
 
 -- CONTACT --
 Current Maintainers: 
