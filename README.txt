@@ -64,7 +64,10 @@ You can define your own commands in your module with hook_coffee_command(),
 see coffee.api.php for further documentation.
 
 
--- CONTACT --
-Current Maintainers: 
- * Michael Mol (michaelmol) - http://drupal.org/user/919186
- * Maarten Verbaarschot (maartenverbaarschot) - http://drupal.org/user/1305466
+-- CONTRIBUTORS --
+
+Maintainer
+- Michael Mol 'michaelmol' <http://drupal.org/user/919186>
+
+JavaScript/CSS
+- Maarten Verbaarschot 'maartenverbaarschot' <http://drupal.org/user/1305466>
