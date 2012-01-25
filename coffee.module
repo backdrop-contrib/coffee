@@ -52,12 +52,15 @@ function coffee_menu() {
  */
 function coffee_result_handler($input = FALSE) {
 
-  // Based on the first char coffee should handle a function callback.
+  // Include the default hooks for Coffee.
+  module_load_include('inc', 'coffee', 'coffee.hooks');
+
+  // Based on the first char Coffee should handle a function callback.
   // Or it should handle the basic functionality (redirecting to paths).
   $command_trigger = ':';
 
   // Invoke all implementations of hook_coffee_command() on command_trigger.
-  if (strstr(check_plain(urldecode($input)), $command_trigger)) {
+  if (strstr(urldecode($input), $command_trigger)) {
     // Execute command, invode hook_coffee.
     foreach (module_implements('coffee_command') as $module) {
       $op = str_ireplace($command_trigger, '', $input);
@@ -71,7 +74,7 @@ function coffee_result_handler($input = FALSE) {
 
   if (!empty($result)) {
     // Return should be in json format so the JavaScript can handle it.
-    print json_encode($result);
+    return drupal_json_output($result);
   }
   drupal_exit();
 
@@ -86,9 +89,19 @@ function coffee_init() {
     // Add the javascript and css files.
     drupal_add_js(drupal_get_path('module', 'coffee') . '/coffee.js', array('type' => 'file'));
     drupal_add_css(drupal_get_path('module', 'coffee') . '/coffee.css', array('type' => 'file'));
-
-    // Include the default hooks for Coffee.
-    module_load_include('inc', 'coffee', 'coffee.hooks');
   }
 
+}
+
+/**
+ * Implements hook_hook_info().
+ */
+function coffee_hook_info() {
+  $hooks = array(
+    'coffee_command' => array(
+      'group' => 'coffee',
+    ),
+  );
+
+  return $hooks;
 }

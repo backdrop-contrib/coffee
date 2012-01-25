@@ -23,7 +23,8 @@ function coffee_redirect($input) {
     $input = implode('/', $argument_query);
   }
 
-  $input = '%' . check_plain($input) . '%';
+  // Add the % for the LIKE query.
+  $input = '%' . $input . '%';
 
   // Build the query for the result set.
   // Look up items in the menu_links table.
