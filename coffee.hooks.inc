@@ -96,14 +96,6 @@ function coffee_redirect($input) {
 function coffee_coffee_command($op) {
   switch ($op) {
 
-    // Example usage of how a result array should be formatted.
-    case 'help' :
-      $return['help'] = array(
-        'path' => 'admin/help/coffee',
-        'title' => 'Coffee Help',
-      );
-      break;
-
     // Display the links of the node/add page.
     case 'add' :
       // This method is used in the core nodes module.

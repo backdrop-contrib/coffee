@@ -49,13 +49,10 @@ This will work for all Drupal admin pages.
 
 -- COFFEE COMMANDS --
 
-Coffee provides some default commands that you can use.
+Coffee provide a default command that you can use.
 
 :add
 Rapidly add content of a specific content type.
-
-:help
-View the Coffee module help page.
 
 
 -- COFFEE HOOKS --
