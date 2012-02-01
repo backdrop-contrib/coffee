@@ -1,0 +1,90 @@
+// use Compass mixins for CSS3
+@import "compass/css3";
+
+// use a modular scale
+@import "modular-scale";
+
+// import Sass variables
+@import "variables";
+
+
+#coffee-bg {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+
+#coffee-form {
+  position: fixed;
+  left: 50%;
+  top: ms(9);
+  width: $coffee-width;
+  margin-left: -($coffee-width/2);
+  padding: $smallmargin;
+  font-size: $basefont;
+  line-height: $baseline;
+  font-family: $font;
+  background: $black-transparent;
+  z-index: 9999;
+  @include border-radius($largemargin);
+}
+
+#coffee-form-inner {
+  background: white;
+  color: $gray-dark;
+  padding: $smallmargin $smallmargin 1px;
+  @include border-radius($tinymargin);
+  @include box-shadow(0px $smallmargin ms(4) $black-transparent);
+}
+
+#coffee-q {
+  background: $gray-light;
+  color: black;
+  border: 0;
+  font: $largefont $font;
+  padding: $tinymargin $smallmargin;
+  width: $coffee-width - ($smallmargin*4);
+  outline: none;
+  display: block;
+  margin: 0 0 $smallmargin;
+}
+
+#coffee-results {
+  list-style: none;
+  margin: 0 0 $smallmargin;
+  padding: 0;
+  
+  li {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .description {
+    display: block;
+    font-size: $smallfont;
+    font-family: $font-accent;
+    color: lighten($gray-dark, 35%);
+  }
+  
+  a {
+    display: block;
+    text-decoration: none;
+    outline: none;
+    color: $gray-dark;
+    padding: $tinymargin $smallmargin;
+  
+    &:focus,
+    &.focus {
+      background: $gray-light;
+      color: black;
+  
+      .description {
+        color: $gray-dark;
+      }
+    }
+  }
+  
+}

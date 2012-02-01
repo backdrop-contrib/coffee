@@ -83,9 +83,9 @@ function coffee_result_handler($input = FALSE) {
 function coffee_init() {
   // Only users with the permission access Coffee can use Coffee.
   if (user_access('access coffee')) {
-    // Add the javascript and css files.
-    drupal_add_js(drupal_get_path('module', 'coffee') . '/coffee.js', array('type' => 'file'));
-    drupal_add_css(drupal_get_path('module', 'coffee') . '/coffee.css', array('type' => 'file'));
+    // Add styling and javascript.
+    drupal_add_css(drupal_get_path('module', 'coffee') . '/css/coffee.css', array('type' => 'file'));
+    drupal_add_js(drupal_get_path('module', 'coffee') . '/js/coffee.js', array('type' => 'file'));
 
     // Include the default hooks for Coffee.
     module_load_include('inc', 'coffee', 'coffee.hooks');

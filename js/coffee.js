@@ -1,8 +1,3 @@
-/**
- * @file
- * JavaScript file for the Coffee module.
- */
-
 (function ($) {
 
 Drupal.coffee = Drupal.coffee || {};
@@ -135,6 +130,7 @@ Drupal.coffee.results = $('<ol id="coffee-results" />');
 
 // Instead of appending results one by one, we put them in a placeholder element
 // first and then append them all at once to prevent flickering while typing.
+
 Drupal.coffee.resultsPlaceholder = $('<ol />');
 
 Drupal.coffee.form = $('<form id="coffee-form" />');
