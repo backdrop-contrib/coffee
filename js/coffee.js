@@ -43,7 +43,7 @@ Drupal.behaviors.coffee = {
         // Enter key handling for the search field: redirect to the first result if there are any.
         else if (Drupal.coffee.form.is(':visible') && event.keyCode === 13 && activeElement[0] === Drupal.coffee.field[0]) {
           if (Drupal.coffee.results.children().length) {
-            Drupal.coffee.redirect(Drupal.coffee.results.find('a:first').attr('href'));
+            Drupal.coffee.results.find('a:first').trigger('click');
           }
           event.preventDefault();
         }
@@ -58,6 +58,8 @@ Drupal.behaviors.coffee = {
       // We close the form explicitly after following a link as pages aren't reloaded when the overlay module is used.
       .live('click', function () {
         Drupal.coffee.close();
+        window.location.href = this.href;
+        return false;
       });
     });
   }
@@ -110,15 +112,6 @@ Drupal.coffee.move = function (direction, activeElement) {
   else {
     activeElement.parent().next().find('a').focus();
   }
-};
-
-/**
- * Close the Coffee form and redirect.
- * Todo: make it work with the overlay module.
- */
-Drupal.coffee.redirect = function (path) {
-  Drupal.coffee.close();
-  document.location = path;
 };
 
 /**
