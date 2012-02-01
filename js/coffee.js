@@ -43,7 +43,7 @@ Drupal.behaviors.coffee = {
         // Enter key handling for the search field: redirect to the first result if there are any.
         else if (Drupal.coffee.form.is(':visible') && event.keyCode === 13 && activeElement[0] === Drupal.coffee.field[0]) {
           if (Drupal.coffee.results.children().length) {
-            Drupal.coffee.results.find('a:first').trigger('click');
+            Drupal.coffee.results.find('a:first').click();
           }
           event.preventDefault();
         }
@@ -58,6 +58,10 @@ Drupal.behaviors.coffee = {
       // We close the form explicitly after following a link as pages aren't reloaded when the overlay module is used.
       .live('click', function () {
         Drupal.coffee.close();
+      });
+      
+      // simulate native click behavior when using .trigger()
+      $('#coffee-results .focus').live('click', function () {
         window.location.href = this.href;
         return false;
       });
