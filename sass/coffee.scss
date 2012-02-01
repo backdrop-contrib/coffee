@@ -22,7 +22,7 @@
   left: 50%;
   top: ms(9);
   width: $coffee-width;
-  margin-left: -($coffee-width/2);
+  margin-left: -$coffee-width/2;
   padding: $smallmargin;
   font-size: $basefont;
   line-height: $baseline;
@@ -37,7 +37,7 @@
   color: $gray-dark;
   padding: $smallmargin $smallmargin 1px;
   @include border-radius($tinymargin);
-  @include box-shadow(0px $smallmargin ms(4) $black-transparent);
+  @include box-shadow(0 $smallmargin ms(4) $black-transparent);
 }
 
 #coffee-q {

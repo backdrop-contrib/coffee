@@ -37,10 +37,10 @@
   -ms-border-radius: 5px;
   -khtml-border-radius: 5px;
   border-radius: 5px;
-  -moz-box-shadow: 0px 10px 39px rgba(0, 0, 0, 0.5);
-  -webkit-box-shadow: 0px 10px 39px rgba(0, 0, 0, 0.5);
-  -o-box-shadow: 0px 10px 39px rgba(0, 0, 0, 0.5);
-  box-shadow: 0px 10px 39px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 10px 39px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 10px 39px rgba(0, 0, 0, 0.5);
+  -o-box-shadow: 0 10px 39px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 39px rgba(0, 0, 0, 0.5);
 }
 
 #coffee-q {
