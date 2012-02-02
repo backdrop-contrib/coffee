@@ -74,7 +74,7 @@ Drupal.coffee.label = $('<label for="coffee-q" class="element-invisible" />').te
 Drupal.coffee.field = $('<input id="coffee-q" type="text" autocomplete="off" />').keyup(function () {
   Drupal.coffee.resultsPlaceholder.empty();
 
-  $.getJSON(Drupal.settings.basePath + 'admin/coffee/result/' + Drupal.coffee.field.val(), function (data) {
+  $.getJSON(Drupal.settings.basePath + '?q=admin/coffee/result/' + Drupal.coffee.field.val(), function (data) {
     if (data) {
       $.each(data, function (key, value) {
         var description = $('<small class="description" />').text(value.path);
