@@ -46,7 +46,7 @@
   border: 0;
   font: $largefont $font;
   padding: $tinymargin $smallmargin;
-  width: $coffee-width - ($smallmargin*4);
+  width: $coffee-width - $smallmargin*4;
   outline: none;
   display: block;
   margin: 0 0 $smallmargin;
