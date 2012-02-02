@@ -1,9 +1,5 @@
 # Require any additional compass plugins here.
 
-# Sassy Modular Scale - https://github.com/scottkellum/modular-scale
-require "modular-scale";
-
-
 # Set this to the root of your project when deployed:
 css_dir = "css"
 sass_dir = "sass"

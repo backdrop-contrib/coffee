@@ -1,22 +1,17 @@
-// modular scale settings. size table: http://modularscale.com/scale/?px1=16&px2=&ra1=1.25&ra2=0
-
-$ratio:                 $major-third;
-$base-size:             16px;
-
 // font families
 
 $font:                  sans-serif;
 $font-accent:           "Lucida Grande", "Lucida Sans Unicode", sans-serif;
 
-// typography grid
+// typography grid. size table: http://modularscale.com/scale/?px1=16&px2=&ra1=1.25&ra2=0
 
-$basefont:              ms(0);
-$baseline:              ms(0);
-$smallfont:             ms(-2);
-$largefont:             ms(4);
-$tinymargin:            ms(-5);
-$smallmargin:           ms(-2);
-$largemargin:           ms(0);
+$basefont:              16px;
+$baseline:              1.2;
+$smallfont:             10px;
+$largefont:             39px;
+$tinymargin:            5px;
+$smallmargin:           10px;
+$largemargin:           16px;
 
 // colors
 
@@ -26,4 +21,4 @@ $black-transparent:     rgba(0, 0, 0, 0.5);
 
 // the coffee form
 
-$coffee-width:          ms(15);
+$coffee-width:          455px;

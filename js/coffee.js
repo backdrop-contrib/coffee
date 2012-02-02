@@ -1,5 +1,5 @@
 (function ($) {
-  
+
 Drupal.behaviors.coffee = {
   attach: function () {
     $('body').once('coffee', function () {
