@@ -11,17 +11,17 @@ Drupal.behaviors.coffee = {
       // use a background element to make the form closable by clicking outside it
       Drupal.coffee.bg.appendTo(body);
       
-      // add an inner div for validation and styling
+      // append the form, add an inner div for validation and styling
       Drupal.coffee.form.wrapInner('<div id="coffee-form-inner" />').appendTo(body);
       
-      // hide the form until alt+D is pressed
+      // hide all elements until alt+D is pressed
       Drupal.coffee.hide();
 
       $(document).keydown(function (event) {
         
         var activeElement = $(document.activeElement);
 
-        // show the form with alt+D. 2 keycodes as 'D' can be upper- or lowercase
+        // show the form with alt+D. we use 2 keycodes as 'D' can be upper- or lowercase
         if ( !Drupal.coffee.form.is(':visible') && event.altKey === true && (event.keyCode === 68 || event.keyCode === 206) ) {
           Drupal.coffee.show();
           event.preventDefault();
@@ -33,17 +33,35 @@ Drupal.behaviors.coffee = {
           event.preventDefault();
         }
 
-        // use the arrow up/down keys to navigate trough the results
-        else if ( Drupal.coffee.form.is(':visible') && Drupal.coffee.results.children().length && (event.keyCode === 38 || event.keyCode === 40) ) {
-          Drupal.coffee.moveFocus(event.keyCode === 38 ? 'prev' : 'next', activeElement);
-          event.preventDefault();
-        }
-
         // enter key handling for the search field: follow the first result link
         else if (Drupal.coffee.form.is(':visible') && event.keyCode === 13 && activeElement[0] === Drupal.coffee.field[0]) {
           if (Drupal.coffee.results.children().length) {
             Drupal.coffee.results.find('a:first').addClass('trigger').click();
           }
+          event.preventDefault();
+        }
+
+        // use the arrow up/down keys to navigate trough the results
+        else if ( Drupal.coffee.form.is(':visible') && Drupal.coffee.results.children().length && (event.keyCode === 38 || event.keyCode === 40) ) {
+
+          // from the search field: jump to the first (down) or last (up) result.
+          // skip the first result if it already has the fake focus class.
+          if (activeElement[0] === Drupal.coffee.field[0]) {
+            Drupal.coffee.results.find( event.keyCode === 38 ? 'a:last' : (Drupal.coffee.results.find('a:first').hasClass('focus') ? 'li:nth-child(2) a' : 'a:first') ).focus();
+          }
+          
+          // jump to the last result if 'up' is used on the first, and the other way around.
+          else if (activeElement[0] === Drupal.coffee.results.find(event.keyCode === 38 ? 'a:first' : 'a:last')[0]) {
+            Drupal.coffee.results.find( event.keyCode === 38 ? 'a:last' : 'a:first' ).focus();
+          }
+          
+          // assuming we're on a result link..
+          else if (event.keyCode === 38) {
+            activeElement.parent().prev().find('a').focus();
+          } else {
+            activeElement.parent().next().find('a').focus();
+          }
+
           event.preventDefault();
         }
 
@@ -82,27 +100,6 @@ Drupal.coffee.hide = function () {
   Drupal.coffee.results.empty();
   Drupal.coffee.form.hide();
   Drupal.coffee.bg.hide();
-};
-
-Drupal.coffee.moveFocus = function (direction, activeElement) {
-  
-  // from the search field: jump to the first (next) or last (prev) result.
-  // skip the first result if it already has the fake focus class.
-  if (activeElement[0] === Drupal.coffee.field[0]) {
-    Drupal.coffee.results.find( direction === 'prev' ? 'a:last' : (Drupal.coffee.results.find('a:first').hasClass('focus') ? 'li:nth-child(2) a' : 'a:first') ).focus();
-  }
-  
-  // jump to the last result if prev is used on the first, and the other way around.
-  else if (activeElement[0] === Drupal.coffee.results.find(direction === 'prev' ? 'a:first' : 'a:last')[0]) {
-    Drupal.coffee.results.find( direction === 'prev' ? 'a:last' : 'a:first' ).focus();
-  }
-  
-  // assuming we're on a result link
-  else if (direction === 'prev') {
-    activeElement.parent().prev().find('a').focus();
-  } else {
-    activeElement.parent().next().find('a').focus();
-  }
 };
 
 Drupal.coffee.bg = $('<div id="coffee-bg" />')

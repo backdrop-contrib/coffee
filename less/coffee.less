@@ -1,0 +1,84 @@
+// import less partials
+@import "variables";
+@import "mixins";
+
+#coffee-bg {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+
+#coffee-form {
+  position: fixed;
+  left: 50%;
+  top: 119px;
+  width: @coffeeWidth;
+  margin-left: -@coffeeWidth/2;
+  padding: @margin;
+  font-size: @baseFontSize;
+  line-height: @baseLineHeight;
+  font-family: @font;
+  background: @blackTransparent;
+  z-index: 9999;
+  .border-radius(@marginLarge);
+}
+
+#coffee-form-inner {
+  background: white;
+  color: @grayDark;
+  padding: @margin @margin 1px;
+  .border-radius(@marginSmall);
+  .box-shadow(0 @margin 39px @blackTransparent);
+}
+
+#coffee-q {
+  background: @grayLight;
+  color: black;
+  border: 0;
+  font: @largeFontSize @font;
+  padding: @marginSmall @margin;
+  width: @coffeeWidth - @margin*4;
+  outline: none;
+  display: block;
+  margin: 0 0 @margin;
+}
+
+#coffee-results {
+  list-style: none;
+  margin: 0 0 @margin;
+  padding: 0;
+  
+  li {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .description {
+    display: block;
+    font-size: @smallFontSize;
+    font-family: @fontAccent;
+    color: lighten(@grayDark, 35%);
+  }
+
+  a {
+    display: block;
+    text-decoration: none;
+    outline: none;
+    color: @grayDark;
+    padding: @marginSmall @margin;
+  
+    &:focus,
+    &.focus {
+      background: @grayLight;
+      color: black;
+  
+      .description {
+        color: @grayDark;
+      }
+    }
+  }
+  
+}
