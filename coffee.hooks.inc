@@ -8,7 +8,7 @@
 /**
  * The default implementation of Coffee.
  * It will look in the menu_links table for administrative links based on
- * the user input
+ * the user input.
  *
  * @param string $input
  *   The user input that will be used to query the database.
@@ -35,7 +35,8 @@ function coffee_redirect($input) {
 
   $query->fields('ml', array('link_path', 'link_title'));
 
-  $query->condition('ml.menu_name', 'management')
+  // Look for management links and devel (if it is installed). 
+  $query->condition('ml.menu_name', array('management', 'devel'))
   ->condition(
   db_or()
     ->condition('ml.link_path', $input, 'LIKE')

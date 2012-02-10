@@ -46,6 +46,9 @@ keys to choose the one you were looking for.
 
 This will work for all Drupal admin pages.
 
+If the Devel module is installed it will also look for items that Devel 
+generates. For example; type 'clear' to get devel/cache/clear as result. 
+
 
 -- COFFEE COMMANDS --
 
