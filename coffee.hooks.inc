@@ -50,7 +50,10 @@ function coffee_redirect($input) {
   ->condition('ml.link_path', '%help%', 'NOT LIKE')
 
   // Filter out empty link_title.
-  ->condition('ml.link_title', '%%', '<>');
+  ->condition('ml.link_title', '%%', '<>')
+
+  // Add default ordering.
+  ->orderBy('ml.link_title', 'ASC');
 
   // Execute the query above.
   $result = $query->execute();
