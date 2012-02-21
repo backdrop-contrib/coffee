@@ -72,5 +72,5 @@ see coffee.api.php for further documentation.
 Maintainer
 - Michael Mol 'michaelmol' <http://drupal.org/user/919186>
 
-JavaScript/CSS
+JavaScript/CSS/Less
 - Maarten Verbaarschot 'maartenverbaarschot' <http://drupal.org/user/1305466>
