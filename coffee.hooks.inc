@@ -2,7 +2,7 @@
 /**
  * @file
  * The hooks that are used by Coffee
- * includes an example of hook_coffee_command()
+ * includes an example of hook_coffee_commands()
  */
 
 /**
