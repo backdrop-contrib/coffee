@@ -24,7 +24,7 @@ function coffee_permission() {
  * Implements hook_menu().
  */
 function coffee_menu() {
-  // Define callback for menu structure callback
+  // Define callback for menu structure callback.
   $items['admin/coffee/menu'] = array(
     'title' => t('Coffee Menu Response'),
     'page callback' => 'coffee_get_menu_response',
@@ -39,7 +39,7 @@ function coffee_menu() {
  * Implements hook_init().
  */
 function coffee_init() {
-  // Only users with the permission access Coffee can use Coffee.
+  // Only users with the permission "access coffee" can use Coffee.
   if (user_access('access coffee')) {
     // Add the javascript and css files.
     drupal_add_library('system', 'ui.autocomplete');
@@ -111,7 +111,7 @@ function coffee_get_menu_response() {
       coffee_traverse_below($link, $output);
     }
 
-    // Include the commands
+    // Include the commands.
     // Include the default hooks for Coffee.
     module_load_include('inc', 'coffee', 'coffee.hooks');
 
@@ -126,7 +126,7 @@ function coffee_get_menu_response() {
       $output = array_merge($output, $commands);
     }
 
-    // Set the cache for this user
+    // Set the cache for this user.
     cache_set($cid, $output, 'cache_coffee');
   }
 
