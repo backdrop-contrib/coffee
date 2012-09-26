@@ -117,22 +117,24 @@ Drupal.coffee.field = $('<input id="coffee-q" type="text" autocomplete="off" />'
   .keyup(function () {
     Drupal.coffee.resultsPlaceholder.empty();
 
-    $.getJSON(Drupal.settings.basePath + '?q=admin/coffee/result/' + Drupal.coffee.field.val(), function (data) {
-      if (data) {
-        $.each(data, function (key, value) {
-          var description = $('<small class="description" />').text(value.path);
-          $('<a />').text(value.title)
-            .attr('href', Drupal.settings.basePath + value.path)
-            .append(description)
-            .appendTo(Drupal.coffee.resultsPlaceholder)
-            .wrap('<li />');
-        });
+    if (Drupal.coffee.field.val().length > 0) {
+      $.getJSON(Drupal.settings.basePath + '?q=admin/coffee/result/' + Drupal.coffee.field.val(), function (data) {
+        if (data) {
+          $.each(data, function (key, value) {
+            var description = $('<small class="description" />').text(value.path);
+            $('<a />').text(value.title)
+              .attr('href', Drupal.settings.basePath + value.path)
+              .append(description)
+              .appendTo(Drupal.coffee.resultsPlaceholder)
+              .wrap('<li />');
+          });
 
-        // Highlight the first result as if it were focused, as a visual hint for
-        // what will happen when the enter key is used in the search field.
-        Drupal.coffee.results.html(Drupal.coffee.resultsPlaceholder.children()).find('a:first').addClass('focus');
-      }
-    });
+          // Highlight the first result as if it were focused, as a visual hint for
+          // what will happen when the enter key is used in the search field.
+          Drupal.coffee.results.html(Drupal.coffee.resultsPlaceholder.children()).find('a:first').addClass('focus');
+        }
+      });
+    }
   });
 
 // Instead of appending results one by one, we put them in a placeholder element
