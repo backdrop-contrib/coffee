@@ -24,57 +24,15 @@ function coffee_permission() {
  * Implements hook_menu().
  */
 function coffee_menu() {
-
-  // Define menu callback for ajax calls to handle the results.
-  $items['admin/coffee/result/%'] = array(
-    'title' => 'Coffee Result Handler',
-    'page callback' => 'coffee_result_handler',
-    'page arguments' => array(3),
+  // Define callback for menu structure callback
+  $items['admin/coffee/menu'] = array(
+    'title' => t('Coffee Menu Response'),
+    'page callback' => 'coffee_get_menu_response',
     'access arguments' => array('access coffee'),
     'type' => MENU_CALLBACK,
   );
+
   return $items;
-
-}
-
-/**
- * Handler for Coffee
- *
- * The coffee_result_handler will process the input,
- * look for matches and returns a json encoded result that is used
- * in the javascript to display the results.
- *
- * @param string $input
- *   String is used to build the query.
- *
- * @return string
- *   JSON encoded output with results based on the input.
- */
-function coffee_result_handler($input = FALSE) {
-
-  // Based on the first char coffee should handle a function callback.
-  // Or it should handle the basic functionality (redirecting to paths).
-  $command_trigger = ':';
-
-  // Invoke all implementations of hook_coffee_command() on command_trigger.
-  if (strstr(check_plain(urldecode($input)), $command_trigger)) {
-    // Execute command, invode hook_coffee.
-    foreach (module_implements('coffee_command') as $module) {
-      $op = str_ireplace($command_trigger, '', $input);
-      $result = module_invoke($module, 'coffee_command', $op);
-    }
-  }
-  else {
-    // Fire the default implementation of Coffee.
-    $result = coffee_redirect($input);
-  }
-
-  if (!empty($result)) {
-    // Return should be in json format so the JavaScript can handle it.
-    print json_encode($result);
-  }
-  drupal_exit();
-
 }
 
 /**
@@ -83,12 +41,95 @@ function coffee_result_handler($input = FALSE) {
 function coffee_init() {
   // Only users with the permission access Coffee can use Coffee.
   if (user_access('access coffee')) {
-    // Add styling and javascript.
-    drupal_add_css(drupal_get_path('module', 'coffee') . '/css/coffee.css', array('type' => 'file'));
+    // Add the javascript and css files.
+    drupal_add_library('system', 'ui.autocomplete');
     drupal_add_js(drupal_get_path('module', 'coffee') . '/js/coffee.js', array('type' => 'file'));
+    drupal_add_css(drupal_get_path('module', 'coffee') . '/css/coffee.css', array('type' => 'file'));
+  }
+}
 
-    // Include the default hooks for Coffee.
-    module_load_include('inc', 'coffee', 'coffee.hooks');
+/**
+ * Implements hook_hook_info().
+ */
+function coffee_hook_info() {
+  $hooks = array(
+    'coffee_commands' => array(
+      'group' => 'coffee',
+    ),
+  );
+
+  return $hooks;
+}
+
+/**
+ * coffee_traverse_below().
+ *
+ * Helper function to traverse down through a menu structure.
+ */
+function coffee_traverse_below($link, &$output) {
+  $l = isset($link['link']) ? $link['link'] : array() ;
+  if (isset($l['access']) && $l['access']) {
+    $output[] = array(
+      'value' => $l['link_path'],
+      'label' => $l['link_title'],
+      'command' => NULL,
+    );
   }
 
+  if (isset($link['below']) && is_array($link['below'])) {
+    foreach ($link['below'] as $below_link) {
+      coffee_traverse_below($below_link, $output);
+    }
+  }
+}
+
+/**
+ * coffee_get_menu_response().
+ *
+ * Menu callback function which outputs the menu
+ * structure as json ready for populating the
+ * autocomplete data source.
+ */
+function coffee_get_menu_response() {
+  global $user, $language;
+  $output = array();
+
+  // Get the commands list from the cache if possible.
+  $cid = 'coffee_commands:' . $user->uid . ':' . $language->language;
+  if ($cache = cache_get($cid)) {
+    if (isset($cache->data)) {
+      $output = $cache->data;
+    }
+  }
+
+  // Nothing from cache, rebuild and then cache.
+  if (empty($output)) {
+    // Grab menu data
+    $menu = menu_tree_all_data('management');
+
+    foreach ($menu as $k => $link) {
+      coffee_traverse_below($link, $output);
+    }
+
+    // Include the commands
+    // Include the default hooks for Coffee.
+    module_load_include('inc', 'coffee', 'coffee.hooks');
+
+    // Invoke all implementations of hook_coffee_commands().
+    $commands = array();
+
+    foreach (module_implements('coffee_commands') as $module) {
+      $commands = array_merge($commands, module_invoke($module, 'coffee_commands', ''));
+    }
+
+    if (!empty($commands)) {
+      $output = array_merge($output, $commands);
+    }
+
+    // Set the cache for this user
+    cache_set($cid, $output, 'cache_coffee');
+  }
+
+  drupal_json_output($output);
+  drupal_exit();
 }

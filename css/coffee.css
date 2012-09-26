@@ -2,6 +2,7 @@
  * @file
  * Stylesheet for the Coffee module.
  */
+
 #coffee-bg {
   position: fixed;
   left: 0;
@@ -10,70 +11,96 @@
   height: 100%;
   z-index: 999;
 }
+
 #coffee-form {
   position: fixed;
   left: 50%;
-  top: 119px;
-  width: 455px;
-  margin-left: -227.5px;
+  top: 120px;
+  width: 500px;
+  margin-left: -250px;
   padding: 10px;
-  font-size: 16px;
-  line-height: 16px;
-  font-family: sans-serif;
-  background: rgba(0, 0, 0, 0.6);
+  font: 16px/1.5 sans-serif;
+  background: rgba(0, 0, 0, 0.4);
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
   z-index: 9999;
-  -webkit-border-radius: 16px;
-  -moz-border-radius: 16px;
-  border-radius: 16px;
 }
+
+#coffee-form.hide-form {
+  position: absolute;
+  left: -100%;
+}
+
 #coffee-form-inner {
-  background: white;
-  color: #444444;
+  background: #fff;
+  color: #444;
   padding: 10px 10px 1px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  -webkit-box-shadow: 0 10px 39px rgba(0, 0, 0, 0.6);
-  -moz-box-shadow: 0 10px 39px rgba(0, 0, 0, 0.6);
-  box-shadow: 0 10px 39px rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.6);
 }
+
 #coffee-q {
   background: #d1d1d1;
-  color: black;
+  color: #000;
   border: 0;
-  font: 39px sans-serif;
+  font: 36px sans-serif;
   padding: 5px 10px;
-  width: 415px;
+  width: 460px;
   outline: none;
   display: block;
   margin: 0 0 10px;
 }
-#coffee-results {
+
+#coffee-results ol {
+  position: static;
+  float: none;
   list-style: none;
-  margin: 0 0 10px;
-  padding: 0;
+  margin: 0;
+  padding: 10px 0 0;
+  border: 0;
 }
+
 #coffee-results li {
   margin: 0;
   padding: 0;
+  float: none;
+  clear: none;
+  width: auto;
 }
-#coffee-results .description {
-  display: block;
-  font-size: 10px;
-  font-family: "Lucida Grande", "Lucida Sans Unicode", sans-serif;
-  color: #9d9d9d;
-}
+
 #coffee-results a {
   display: block;
-  text-decoration: none;
+  border: 0;
   outline: none;
-  color: #444444;
-  padding: 5px 10px;
+  color: #444;
+  padding: 3px 10px;
+  line-height: normal;
+  font-size: 16px;
+  text-decoration: none;
 }
-#coffee-results a:focus, #coffee-results a.focus {
+
+#coffee-results a.ui-state-hover {
   background: #d1d1d1;
-  color: black;
+  color: #000;
+  margin: 0;
+  cursor: pointer;
 }
-#coffee-results a:focus .description, #coffee-results a.focus .description {
-  color: #444444;
+
+#coffee-results .description {
+  display: block;
+  font-size: 11px;
+  color: #888;
+}
+
+#coffee-results a.ui-state-hover .description {
+  color: #666;
+}
+
+#coffee-results .ui-widget {
+  font-family: sans-serif;
 }
