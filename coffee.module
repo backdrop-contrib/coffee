@@ -57,11 +57,12 @@ function coffee_result_handler($input = FALSE) {
   $command_trigger = ':';
 
   // Invoke all implementations of hook_coffee_command() on command_trigger.
+  $result = array();
   if (strstr(check_plain(urldecode($input)), $command_trigger)) {
     // Execute command, invode hook_coffee.
     foreach (module_implements('coffee_command') as $module) {
       $op = str_ireplace($command_trigger, '', $input);
-      $result = module_invoke($module, 'coffee_command', $op);
+      $result += (array)module_invoke($module, 'coffee_command', $op);
     }
   }
   else {
