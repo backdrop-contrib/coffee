@@ -26,9 +26,9 @@ function coffee_enable() {
 }
 
 /**
- * Ensure that admin_menu is rebuilt after upgrading to D6.
+ * Make sure that the cache bin exists when upgrading from 1.x.
  */
-function admin_menu_update_7200() {
+function coffee_update_7200() {
   // Create the Coffee cache bin.
   if (!db_table_exists('cache_coffee')) {
     $schema = drupal_get_schema_unprocessed('system', 'cache');
