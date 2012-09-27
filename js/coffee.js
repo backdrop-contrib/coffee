@@ -59,7 +59,7 @@
             $(Drupal.coffee.field).autocomplete({
               source: Drupal.coffee.dataset,
               select: function(event, ui) {
-                Drupal.coffee.redirect(ui.item.value);
+                Drupal.coffee.redirect(ui.item.value, event.metaKey);
                 event.preventDefault();
 
                 return false;
@@ -90,7 +90,7 @@
       					var item = ui.item.data('item.autocomplete'),
       						previous = self.previous;
 
-      					Drupal.coffee.redirect(item.value);
+      					Drupal.coffee.redirect(item.value, event.metaKey);
                 event.preventDefault();
       				},
       				blur: function(event, ui) {
@@ -160,9 +160,15 @@
    * Close the Coffee form and redirect.
    * Todo: make it work with the overlay module.
    */
-  Drupal.coffee.redirect = function(path) {
+  Drupal.coffee.redirect = function(path, openInNewWindow) {
     Drupal.coffee.coffee_close();
-    document.location = Drupal.settings.basePath + path;
+
+    if (openInNewWindow) {
+      window.open(Drupal.settings.basePath + path);
+    }
+    else {
+      document.location = Drupal.settings.basePath + path;
+    }
   };
 
   /**
