@@ -99,7 +99,7 @@
       			.hide()
       			.data('menu');
 
-            // We want to limit the number of results
+            // We want to limit the number of results.
             $(Drupal.coffee.field).data('autocomplete')._renderMenu = function(ul, items) {
           		var self = this;
           		items = items.slice(0, 7); // max should be in Drupal.settings var
@@ -107,6 +107,16 @@
           			self._renderItem(ul, item);
           		});
           	};
+
+          	// On submit of the form select the first result if available.
+          	Drupal.coffee.form.submit(function() {
+          	  var firstItem = jQuery(Drupal.coffee.results).find('li:first').data('item.autocomplete');
+          	  if (typeof firstItem == 'object') {
+          	    Drupal.coffee.redirect(firstItem.value, false);
+          	  }
+
+          	  return false;
+          	});
           },
           error: function() {
             Drupal.coffee.field.val('Could not AJAX load data :(');
