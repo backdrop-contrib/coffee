@@ -57,13 +57,9 @@ Coffee provides some default commands that you can use.
 :add
 Rapidly add content of a specific content type.
 
-:help
-View the Coffee module help page.
-
-
 -- COFFEE HOOKS --
 
-You can define your own commands in your module with hook_coffee_command(),
+You can define your own commands in your module with hook_coffee_commands(),
 see coffee.api.php for further documentation.
 
 
@@ -74,3 +70,6 @@ Maintainer
 
 JavaScript/CSS/Less
 - Maarten Verbaarschot 'maartenverbaarschot' <http://drupal.org/user/1305466>
+
+Co-maintainer
+- Alli Price 'alli.price' <http://drupal.org/user/431193>
