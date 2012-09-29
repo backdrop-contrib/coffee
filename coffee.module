@@ -67,7 +67,9 @@ function coffee_hook_info() {
  * Helper function to traverse down through a menu structure.
  */
 function coffee_traverse_below($link, &$output) {
-  $l = isset($link['link']) ? $link['link'] : array() ;
+  $l = isset($link['link']) ? $link['link'] : array();
+
+  // Only add if user has access.
   if (isset($l['access']) && $l['access']) {
     $output[] = array(
       'value' => $l['link_path'],
@@ -86,9 +88,8 @@ function coffee_traverse_below($link, &$output) {
 /**
  * coffee_get_menu_response().
  *
- * Menu callback function which outputs the menu
- * structure as json ready for populating the
- * autocomplete data source.
+ * Menu callback function which outputs the menu structure as json ready for
+ * populating the autocomplete data source.
  */
 function coffee_get_menu_response() {
   global $user, $language;
