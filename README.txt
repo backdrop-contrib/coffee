@@ -5,7 +5,7 @@ The Coffee module helps you to navigate through the Drupal admin faster,
 inspired by Alfred and Spotlight (OS X).
 
 For a full description of the module, visit the project page:
-  http://drupal.org/sandbox/michaelmol/1356930
+  http://drupal.org/project/coffee
 
 To submit bug reports and feature suggestions, or to track changes:
   http://drupal.org/project/issues/1356930
@@ -52,7 +52,7 @@ generates. For example; type 'clear' to get devel/cache/clear as result.
 
 -- COFFEE COMMANDS --
 
-Coffee provides some default commands that you can use.
+Coffee provid a default command that you can use.
 
 :add
 Rapidly add content of a specific content type.
