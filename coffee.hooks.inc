@@ -8,7 +8,7 @@
 /**
  * Implements hook_coffee_commands().
  */
-function coffee_coffee_commands($op) {
+function coffee_coffee_commands() {
   $commands = array();
 
   // Display the links of the node/add page.
@@ -17,6 +17,7 @@ function coffee_coffee_commands($op) {
   $path = 'node/add';
   $item = menu_get_item($path);
   $content_types = system_admin_menu_block($item);
+
   foreach ($content_types as $content_type) {
     $command = ':add';
     $commands[] = array(
