@@ -82,6 +82,7 @@
   line-height: normal;
   font-size: 16px;
   text-decoration: none;
+  height: auto;
 }
 
 #coffee-results a.ui-state-hover {
