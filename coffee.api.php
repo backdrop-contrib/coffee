@@ -18,6 +18,16 @@
 function hook_coffee_commands($op) {
   $commands = array();
 
+  // Basic example, for 1 result.
+  $commands[] = array(
+    'value' => 'Simple',
+    'label' => 'node/example',
+    // Every result should include should include a command.
+    'command' => ':simple',
+  );
+
+
+  // More advanced example to include a view.
   $view = views_get_view('my_entities_view');
 
   if ($view) {
@@ -28,7 +38,7 @@ function hook_coffee_commands($op) {
 
   if ($view && count($view->result) > 0) {
     foreach ($view->result as $row) {
-      $shepherd_neame_pubs_coffee_commands[] = array(
+      $commands[] = array(
         'value' => ltrim(url('node/' . $row->nid), '/'),
         'label' => check_plain('Pub: ' . $row->node_title),
         // You can also specify commands that if the user enters, this command should show.
