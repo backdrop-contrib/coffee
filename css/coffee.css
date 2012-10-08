@@ -51,9 +51,22 @@
   font: 36px sans-serif;
   padding: 5px 10px;
   width: 460px;
+  height: 38px;
   outline: none;
   display: block;
   margin: 0 0 10px;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing:border-box;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+
+#coffee-q:focus {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 
 #coffee-results ol {
@@ -78,11 +91,20 @@
   border: 0;
   outline: none;
   color: #444;
-  padding: 3px 10px;
+  padding: 6px 10px 4px;
   line-height: normal;
   font-size: 16px;
   text-decoration: none;
   height: auto;
+  -moz-transition: none;
+  -webkit-transition: none;
+  transition: none;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing:border-box;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
 }
 
 #coffee-results a.ui-state-hover {
