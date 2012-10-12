@@ -50,7 +50,7 @@
         Drupal.coffee.dataset = [];
 
         $.ajax({
-          url: Drupal.settings.basePath + 'admin/coffee/menu',
+          url: Drupal.settings.basePath + '?q=admin/coffee/menu',
           dataType: 'json',
           success: function(data) {
             Drupal.coffee.dataset = data;
