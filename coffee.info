@@ -3,4 +3,5 @@ description = An administrative module to switch between admin pages real fast, 
 core = 7.x
 package = Administration
 
+files[] = coffee.admin.inc
 files[] = coffee.hooks.inc

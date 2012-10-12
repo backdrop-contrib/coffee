@@ -17,6 +17,10 @@ function coffee_permission() {
       'title' => t('Access Coffee'),
       'description' => t('Access the Coffee search box to navigate fast between admin pages'),
     ),
+    'administer coffee' => array(
+      'title' => t('Administer Coffee'),
+      'description' => t('Administer the Coffee search module'),
+    ),
   );
 }
 
@@ -24,12 +28,26 @@ function coffee_permission() {
  * Implements hook_menu().
  */
 function coffee_menu() {
+  $items = array();
+  $path = drupal_get_path('module', 'coffee');
+
   // Define callback for menu structure callback.
   $items['admin/coffee/menu'] = array(
     'title' => t('Coffee Menu Response'),
     'page callback' => 'coffee_get_menu_response',
     'access arguments' => array('access coffee'),
     'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/config/user-interface/coffee'] = array(
+    'title' => 'Coffee',
+    'description' => 'Configuration for the Coffee module.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('coffee_admin_settings'),
+    'access arguments' => array('administer coffee'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'coffee.admin.inc',
+    'file path' => $path,
   );
 
   return $items;
@@ -106,10 +124,14 @@ function coffee_get_menu_response() {
   // Nothing from cache, rebuild and then cache.
   if (empty($output)) {
     // Grab menu data
-    $menu = menu_tree_all_data('management');
+    $menus = variable_get('coffee_settings_menus', array('management'));
 
-    foreach ($menu as $k => $link) {
-      coffee_traverse_below($link, $output);
+    foreach ($menus as $v) {
+      $menu = menu_tree_all_data($v);
+
+      foreach ($menu as $k => $link) {
+        coffee_traverse_below($link, $output);
+      }
     }
 
     // Include the commands.
