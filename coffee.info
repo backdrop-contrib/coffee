@@ -5,3 +5,5 @@ package = Administration
 
 files[] = coffee.admin.inc
 files[] = coffee.hooks.inc
+
+dependencies[] = menu
