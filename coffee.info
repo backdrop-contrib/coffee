@@ -7,3 +7,5 @@ files[] = coffee.admin.inc
 files[] = coffee.hooks.inc
 
 dependencies[] = menu
+
+configure = admin/config/user-interface/coffee
