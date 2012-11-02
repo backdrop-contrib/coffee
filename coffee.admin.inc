@@ -26,7 +26,7 @@ function coffee_admin_settings() {
   if (!empty($menu_options)) {
     $form['coffee_settings_menus'] =  array(
       '#type' => 'checkboxes',
-      '#title' => t('Menus to include in coffee'),
+      '#title' => t('Menus to include in Coffee'),
       '#options' => $menu_options,
       '#default_value' => variable_get('coffee_settings_menus', array('management')),
     );
