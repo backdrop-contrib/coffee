@@ -12,7 +12,7 @@
   function filter(array, term) {
   	var matcher = new RegExp( $.ui.autocomplete.escapeRegex(term), 'i');
   	return $.grep(array, function(value) {
-  		return matcher.test(value.command || value.label || value.value || value);
+                return matcher.test(value.command) || matcher.test(value.label) || matcher.test(value.value);
   	});
   }
 
