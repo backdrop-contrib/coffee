@@ -12,6 +12,13 @@ function coffee_coffee_commands() {
   global $user;
   $commands = array();
 
+  // Add in a link for the frontpage.
+  $commands[] = array(
+    'value' => substr(url('<front>'), 0, 1),
+    'label' => t('Go to front page'),
+    'command' => ':front',
+  );
+
   // Display the links of the node/add page.
   // The command is ":add" and includes the link_title to empower the
   // autocompletion.
