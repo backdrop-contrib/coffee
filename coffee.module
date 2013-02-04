@@ -89,9 +89,10 @@ function coffee_traverse_below($link, &$output) {
 
   // Only add if user has access.
   if (isset($l['access']) && $l['access']) {
+    $label = (!empty($l['title']) ? $l['title'] : $l['link_title']);
     $output[] = array(
       'value' => $l['link_path'],
-      'label' => $l['link_title'],
+      'label' => $label,
       'command' => NULL,
     );
   }
