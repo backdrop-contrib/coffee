@@ -51,14 +51,14 @@
   font: 36px sans-serif;
   line-height: 52px;
   padding: 5px 10px;
-  width: 480px;
+  width: 460px;
   height: 52px;
   outline: none;
   display: block;
   margin: 0 0 10px;
   -moz-box-sizing: content-box;
   -webkit-box-sizing: content-box;
-  box-sizing:border-box;
+  box-sizing: content-box;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
