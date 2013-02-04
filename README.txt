@@ -13,7 +13,7 @@ To submit bug reports and feature suggestions, or to track changes:
 
 -- REQUIREMENTS --
 
-None.
+Menu module (core).
 
 
 -- INSTALLATION --
@@ -28,7 +28,10 @@ None.
   - access coffee
 
     Users in Roles with the "access coffee" permission can make use of the
-    Coffee module. 
+    Coffee module.
+
+* Configure which menus are included in the coffee results here:
+  - admin/config/user-interface/coffee
 
 
 -- USAGE --
@@ -52,10 +55,10 @@ generates. For example; type 'clear' to get devel/cache/clear as result.
 
 -- COFFEE COMMANDS --
 
-Coffee provid a default command that you can use.
+Coffee provides default commands that you can use.
 
 :add
-Rapidly add content of a specific content type.
+Rapidly add a node of a specific content type.
 
 -- COFFEE HOOKS --
 
@@ -68,8 +71,8 @@ see coffee.api.php for further documentation.
 Maintainer
 - Michael Mol 'michaelmol' <http://drupal.org/user/919186>
 
+Co-maintainer
+- Alli Price 'heylookalive' <http://drupal.org/user/431193>
+
 JavaScript/CSS/Less
 - Maarten Verbaarschot 'maartenverbaarschot' <http://drupal.org/user/1305466>
-
-Co-maintainer
-- Alli Price 'alli.price' <http://drupal.org/user/431193>

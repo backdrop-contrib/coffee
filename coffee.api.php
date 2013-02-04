@@ -34,16 +34,16 @@ function hook_coffee_commands($op) {
     $view->set_display('default');
     $view->pre_execute();
     $view->execute();
-  }
-
-  if ($view && count($view->result) > 0) {
-    foreach ($view->result as $row) {
-      $commands[] = array(
-        'value' => ltrim(url('node/' . $row->nid), '/'),
-        'label' => check_plain('Pub: ' . $row->node_title),
-        // You can also specify commands that if the user enters, this command should show.
-        'command' => ':x',
-      );
+  
+    if (count($view->result) > 0) {
+      foreach ($view->result as $row) {
+        $commands[] = array(
+          'value' => ltrim(url('node/' . $row->nid), '/'),
+          'label' => check_plain('Pub: ' . $row->node_title),
+          // You can also specify commands that if the user enters, this command should show.
+          'command' => ':x',
+        );
+      }
     }
   }
 
