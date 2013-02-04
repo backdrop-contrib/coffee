@@ -14,7 +14,7 @@ function coffee_coffee_commands() {
 
   // Add in a link for the frontpage.
   $commands[] = array(
-    'value' => substr(url('<front>'), 0, 1),
+    'value' => '',
     'label' => t('Go to front page'),
     'command' => ':front',
   );
