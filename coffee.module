@@ -116,7 +116,7 @@ function coffee_get_menu_response() {
 
   // Get the commands list from the cache if possible.
   $cid = 'coffee_commands:' . $user->uid . ':' . $language->language;
-  if ($cache = cache_get($cid)) {
+  if ($cache = cache_get($cid, 'cache_coffee')) {
     if (isset($cache->data)) {
       $output = $cache->data;
     }
@@ -166,4 +166,53 @@ function coffee_get_menu_response() {
 
   drupal_json_output($output);
   drupal_exit();
+}
+
+/**
+ * Implements hook_flush_caches().
+ *
+ * The following caching implemented is lifted from the
+ * awesome admin_menu module.
+ *
+ * @param int $uid
+ *   (optional) A user ID to limit the cache flush to.
+ */
+function coffee_flush_caches($uid = NULL) {
+  $cid = 'coffee_commands:';
+  if (isset($uid)) {
+    $cid .= $uid . ':';
+  }
+
+  // db_table_exists() required for SimpleTest.
+  if (db_table_exists('cache_coffee')) {
+    cache_clear_all(isset($uid) ? $cid : '*', 'cache_coffee', TRUE);
+  }
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function coffee_menu_alter(&$items) {
+  coffee_flush_caches();
+}
+
+/**
+ * Implements hook_menu_link_insert().
+ */
+function coffee_menu_link_insert($link) {
+  coffee_flush_caches();
+}
+
+/**
+ * Implements hook_menu_link_update().
+ */
+function coffee_menu_link_update($link) {
+  coffee_flush_caches();
+}
+
+/**
+ * Implements hook_menu_link_delete().
+ */
+function coffee_menu_link_delete($link) {
+  coffee_flush_caches();
 }
