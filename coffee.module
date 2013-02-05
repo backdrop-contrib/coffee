@@ -124,7 +124,7 @@ function coffee_get_menu_response() {
 
   // Nothing from cache, rebuild and then cache.
   if (empty($output)) {
-    // Grab menu data
+    // Grab menu data.
     $menus = variable_get('coffee_settings_menus', array('management'));
 
     foreach ($menus as $v) {
@@ -150,9 +150,12 @@ function coffee_get_menu_response() {
       $output = array_merge($output, $commands);
     }
 
-    // If clean URLs are turned off, alter the command URLs
-    if (empty($GLOBALS['conf']['clean_url'])) {
-      foreach ($output as $k => $v) {
+    foreach ($output as $k => $v) {
+      // Prevent any nasty commands from getting through.
+      $output[$k]['label'] = filter_xss($output[$k]['label']);
+
+      // If clean URLs are turned off, alter the command URLs.
+      if (empty($GLOBALS['conf']['clean_url'])) {
         $output[$k]['value'] = '?q=' . $output[$k]['value'];
       }
     }
