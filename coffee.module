@@ -151,6 +151,13 @@ function coffee_get_menu_response() {
     }
 
     foreach ($output as $k => $v) {
+      // If there are links to <front> remove them.
+      if ($v['value'] === '<front>') {
+        unset($output[$k]);
+
+        continue;
+      }
+
       // Prevent any nasty commands from getting through.
       $output[$k]['label'] = filter_xss($output[$k]['label']);
 
@@ -159,6 +166,9 @@ function coffee_get_menu_response() {
         $output[$k]['value'] = '?q=' . $output[$k]['value'];
       }
     }
+
+    // Re-index the array, it matters to jQuery if we've removed items.
+    $output = array_values($output);
 
     // Set the cache for this user.
     cache_set($cid, $output, 'cache_coffee');
