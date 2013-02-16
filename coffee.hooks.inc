@@ -35,35 +35,6 @@ function coffee_coffee_commands() {
     );
   }
 
-  // Display the links of the user page.
-  // The command is ":user" and includes the title to empower the
-  // autocompletion.
-  $user_menu = user_menu();
-  $txt = array();
-  $txt['my_account'] = $user_menu['user/%user']['title'];
-  $txt['logout'] = $user_menu['user/logout']['title'];
-
-  $command = ':user';
-  foreach ($user_menu as $path => $menu_item) {
-    if (strpos($path, 'user/%user/') !== 0) {
-        continue;
-    }
-    if (strpos($path, 'user/%user/cancel') === 0) {
-        continue;
-    }
-    $path = str_replace('%user', $user->uid, $path);
-    $commands[] = array(
-      'value' => $path,
-      'label' => $txt['my_account'] . ' - ' . $menu_item['title'],
-      'command' => $command . ' ' . drupal_strtolower($menu_item['title']),
-    );
-  }
-  $commands[] = array(
-    'value' => 'user/logout',
-    'label' => $txt['logout'],
-    'command' => $command . ' logout',
-  );
-
   return $commands;
 
 }

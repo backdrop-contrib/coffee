@@ -84,7 +84,7 @@ function coffee_hook_info() {
  *
  * Helper function to traverse down through a menu structure.
  */
-function coffee_traverse_below($link, &$output) {
+function coffee_traverse_below($link, &$output, $command = NULL) {
   $l = isset($link['link']) ? $link['link'] : array();
 
   // Only add if user has access.
@@ -93,7 +93,7 @@ function coffee_traverse_below($link, &$output) {
     $output[] = array(
       'value' => $l['link_path'],
       'label' => $label,
-      'command' => NULL,
+      'command' => $command,
     );
   }
 
@@ -125,13 +125,18 @@ function coffee_get_menu_response() {
   // Nothing from cache, rebuild and then cache.
   if (empty($output)) {
     // Grab menu data.
-    $menus = variable_get('coffee_settings_menus', array('management'));
-
+    $menus = variable_get('coffee_settings_menus', array('management', 'user-menu'));
     foreach ($menus as $v) {
+      if ($v == '0') {
+        continue;
+      }
+
       $menu = menu_tree_all_data($v);
 
       foreach ($menu as $k => $link) {
-        coffee_traverse_below($link, $output);
+        $command = $v == 'user-menu' ? ':user' : NULL ;
+
+        coffee_traverse_below($link, $output, $command);
       }
     }
 
