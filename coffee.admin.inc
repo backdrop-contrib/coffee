@@ -28,7 +28,7 @@ function coffee_admin_settings() {
       '#type' => 'checkboxes',
       '#title' => t('Menus to include in Coffee'),
       '#options' => $menu_options,
-      '#default_value' => variable_get('coffee_settings_menus', array('management')),
+      '#default_value' => variable_get('coffee_settings_menus', array('management', 'user-menu')),
     );
   }
 
