@@ -33,7 +33,7 @@ function coffee_menu() {
 
   // Define callback for menu structure callback.
   $items['admin/coffee/menu'] = array(
-    'title' => t('Coffee Menu Response'),
+    'title' => 'Coffee Menu Response',
     'page callback' => 'coffee_get_menu_response',
     'access arguments' => array('access coffee'),
     'type' => MENU_CALLBACK,
@@ -80,7 +80,7 @@ function coffee_hook_info() {
 }
 
 /**
- * coffee_traverse_below().
+ * Function coffee_traverse_below().
  *
  * Helper function to traverse down through a menu structure.
  */
@@ -105,7 +105,7 @@ function coffee_traverse_below($link, &$output, $command = NULL) {
 }
 
 /**
- * coffee_get_menu_response().
+ * Function coffee_get_menu_response().
  *
  * Menu callback function which outputs the menu structure as json ready for
  * populating the autocomplete data source.
@@ -188,9 +188,6 @@ function coffee_get_menu_response() {
  *
  * The following caching implemented is lifted from the
  * awesome admin_menu module.
- *
- * @param int $uid
- *   (optional) A user ID to limit the cache flush to.
  */
 function coffee_flush_caches($uid = NULL) {
   $cid = 'coffee_commands:';

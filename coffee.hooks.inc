@@ -9,7 +9,6 @@
  * Implements hook_coffee_commands().
  */
 function coffee_coffee_commands() {
-  global $user;
   $commands = array();
 
   // Add in a link for the frontpage.
@@ -36,5 +35,4 @@ function coffee_coffee_commands() {
   }
 
   return $commands;
-
 }

@@ -24,7 +24,7 @@ function coffee_admin_settings() {
   }
 
   if (!empty($menu_options)) {
-    $form['coffee_settings_menus'] =  array(
+    $form['coffee_settings_menus'] = array(
       '#type' => 'checkboxes',
       '#title' => t('Menus to include in Coffee'),
       '#options' => $menu_options,
@@ -37,6 +37,9 @@ function coffee_admin_settings() {
   return system_settings_form($form);
 }
 
+/**
+ * Function coffee_admin_settings_submit().
+ */
 function coffee_admin_settings_submit($form, $form_state) {
   // As we're altering which menus are being included in
   // coffee, rebuild the cached commands for users so they
