@@ -81,7 +81,7 @@
             $(Drupal.coffee.field).data('autocomplete').menu = $('<ol></ol>')
       			.addClass('ui-autocomplete')
       			.appendTo(Drupal.coffee.results)
-      			// prevent the close-on-blur in case of a "slow" click on the menu (long mousedown)
+      			// prevent the close-on-blur in case of a "slow" click on the menu (long mousedown).
       			.mousedown(function(event) {})
       			.menu({
       				focus: function(event, ui) {
@@ -91,7 +91,7 @@
       						previous = self.previous;
 
       					Drupal.coffee.redirect(item.value, event.metaKey);
-                event.preventDefault();
+      					event.preventDefault();
       				},
       				blur: function(event, ui) {
       				}
@@ -102,7 +102,7 @@
             // We want to limit the number of results.
             $(Drupal.coffee.field).data('autocomplete')._renderMenu = function(ul, items) {
           		var self = this;
-          		items = items.slice(0, 7); // max should be in Drupal.settings var
+          		items = items.slice(0, 7); // @todo: max should be in Drupal.settings var.
           		$.each( items, function(index, item) {
           			self._renderItem(ul, item);
           		});
@@ -119,7 +119,7 @@
           	});
           },
           error: function() {
-            Drupal.coffee.field.val('Could not AJAX load data :(');
+            Drupal.coffee.field.val('Could not load data, please refresh the page');
           }
         });
 
@@ -128,7 +128,10 @@
           var activeElement = $(document.activeElement);
 
           // Show the form with alt + D. Use 2 keycodes as 'D' can be uppercase or lowercase.
-          if (Drupal.coffee.form.hasClass('hide-form') && event.altKey === true && (event.keyCode === 68 || event.keyCode === 206)) {
+          if (Drupal.coffee.form.hasClass('hide-form') && 
+        		  event.altKey === true && 
+        		  // 68/206 = d/D, 75 = k. 
+        		  (event.keyCode === 68 || event.keyCode === 206  || event.keyCode === 75)) {
             Drupal.coffee.coffee_show();
             event.preventDefault();
           }
