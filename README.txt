@@ -2,7 +2,9 @@
 -- SUMMARY --
 
 The Coffee module helps you to navigate through the Drupal admin faster,
-inspired by Alfred and Spotlight (OS X).
+inspired by Alfred and Spotlight (OS X). By default the management menu is
+included in the results. Go to the config page to select an other of multiple
+menus. 
 
 For a full description of the module, visit the project page:
   http://drupal.org/project/coffee
