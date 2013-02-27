@@ -107,7 +107,7 @@ function coffee_traverse_below($link, &$output, $command = NULL) {
 /**
  * Function coffee_get_menu_response().
  *
- * Menu callback function which outputs the menu structure as json ready for
+ * Menu callback function which outputs the menu structure as JSON ready for
  * populating the autocomplete data source.
  */
 function coffee_get_menu_response() {
