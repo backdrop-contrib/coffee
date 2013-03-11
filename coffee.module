@@ -54,9 +54,9 @@ function coffee_menu() {
 }
 
 /**
- * Implements hook_init().
+ * Implements hook_page_build().
  */
-function coffee_init() {
+function coffee_page_build() {
   // Only users with the permission "access coffee" can use Coffee.
   if (user_access('access coffee')) {
     // Add the javascript and css files.
