@@ -48,6 +48,10 @@
         // Load autocomplete data set, consider implementing
         // caching with local storage.
         Drupal.coffee.dataset = [];
+        
+        var jquery_ui_version = $.ui.version.split('.');
+        var jquery110 = parseInt(jquery_ui_version[0]) >= 1 && parseInt(jquery_ui_version[1]) > 9;
+        var autocomplete_data_element = (jquery110) ? 'ui-autocomplete' : 'autocomplete';
 
         $.ajax({
           url: Drupal.settings.basePath + '?q=admin/coffee/menu',
@@ -56,7 +60,7 @@
             Drupal.coffee.dataset = data;
 
             // Apply autocomplete plugin on show
-            $(Drupal.coffee.field).autocomplete({
+            var $autocomplete = $(Drupal.coffee.field).autocomplete({
               source: Drupal.coffee.dataset,
               select: function(event, ui) {
                 Drupal.coffee.redirect(ui.item.value, event.metaKey);
@@ -66,7 +70,9 @@
               },
               delay: 0,
               appendTo: Drupal.coffee.results
-            }).data('autocomplete')._renderItem = function(ul, item) {
+           });
+            
+           $autocomplete.data(autocomplete_data_element)._renderItem = function(ul, item) {
               return  $('<li></li>')
                       .data('item.autocomplete', item)
                       .append('<a>' + item.label + '<small class="description">' + item.value + '</small></a>')
@@ -75,10 +81,8 @@
 
             // This isn't very nice, there are methods within that we need
             // to alter, so here comes a big wodge of text...
-            var self = Drupal.coffee.field,
-            doc = Drupal.coffee.field.data('autocomplete').element[0].ownerDocument;
-
-            $(Drupal.coffee.field).data('autocomplete').menu = $('<ol></ol>')
+            var self = Drupal.coffee.field;
+            $(Drupal.coffee.field).data(autocomplete_data_element).menu = $('<ol></ol>')
       			.addClass('ui-autocomplete')
       			.appendTo(Drupal.coffee.results)
       			// prevent the close-on-blur in case of a "slow" click on the menu (long mousedown).
@@ -100,7 +104,7 @@
       			.data('menu');
 
             // We want to limit the number of results.
-            $(Drupal.coffee.field).data('autocomplete')._renderMenu = function(ul, items) {
+            $(Drupal.coffee.field).data(autocomplete_data_element)._renderMenu = function(ul, items) {
           		var self = this;
           		items = items.slice(0, 7); // @todo: max should be in Drupal.settings var.
           		$.each( items, function(index, item) {
@@ -155,7 +159,7 @@
     Drupal.coffee.form.removeClass('hide-form');
     Drupal.coffee.bg.show();
     Drupal.coffee.field.focus();
-    $(Drupal.coffee.field).autocomplete('enabled');
+    $(Drupal.coffee.field).autocomplete({enable: true});
   };
 
   /**
@@ -166,7 +170,7 @@
     //Drupal.coffee.results.empty();
     Drupal.coffee.form.addClass('hide-form');
     Drupal.coffee.bg.hide();
-    $(Drupal.coffee.field).autocomplete('disabled');
+    $(Drupal.coffee.field).autocomplete({enable: false});
   };
 
   /**
