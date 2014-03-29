@@ -63,11 +63,8 @@
             // Apply autocomplete plugin on show
             var $autocomplete = $(Drupal.coffee.field).autocomplete({
               source: Drupal.coffee.dataset,
-              focus: function( event, ui ) {
-                  console.log($('a.ui-corner-all'));
-              },
+              focus: function( event, ui ) {},
               select: function(event, ui) {
-                  console.log(ui);
                 Drupal.coffee.redirect(ui.item.value, event.metaKey);
                 event.preventDefault();
 
