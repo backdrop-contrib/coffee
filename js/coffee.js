@@ -35,6 +35,7 @@
     attach: function() {
       $('body').once('coffee', function() {
         var body = $(this);
+
         Drupal.coffee.bg.appendTo(body).hide();
 
         Drupal.coffee.form
@@ -50,8 +51,8 @@
         Drupal.coffee.dataset = [];
         
         var jquery_ui_version = $.ui.version.split('.');
-        var jquery110 = parseInt(jquery_ui_version[0]) >= 1 && parseInt(jquery_ui_version[1]) > 9;
-        var autocomplete_data_element = (jquery110) ? 'ui-autocomplete' : 'autocomplete';
+        var jquery_ui_newer_1_9 = parseInt(jquery_ui_version[0]) >= 1 && parseInt(jquery_ui_version[1]) > 9;
+        var autocomplete_data_element = (jquery_ui_newer_1_9) ? 'ui-autocomplete' : 'autocomplete';
 
         $.ajax({
           url: Drupal.settings.basePath + '?q=admin/coffee/menu',
@@ -62,7 +63,11 @@
             // Apply autocomplete plugin on show
             var $autocomplete = $(Drupal.coffee.field).autocomplete({
               source: Drupal.coffee.dataset,
+              focus: function( event, ui ) {
+                  console.log($('a.ui-corner-all'));
+              },
               select: function(event, ui) {
+                  console.log(ui);
                 Drupal.coffee.redirect(ui.item.value, event.metaKey);
                 event.preventDefault();
 
@@ -71,7 +76,7 @@
               delay: 0,
               appendTo: Drupal.coffee.results
            });
-            
+
            $autocomplete.data(autocomplete_data_element)._renderItem = function(ul, item) {
               return  $('<li></li>')
                       .data('item.autocomplete', item)
@@ -82,33 +87,41 @@
             // This isn't very nice, there are methods within that we need
             // to alter, so here comes a big wodge of text...
             var self = Drupal.coffee.field;
-            $(Drupal.coffee.field).data(autocomplete_data_element).menu = $('<ol></ol>')
-      			.addClass('ui-autocomplete')
-      			.appendTo(Drupal.coffee.results)
-      			// prevent the close-on-blur in case of a "slow" click on the menu (long mousedown).
-      			.mousedown(function(event) {})
-      			.menu({
-      				focus: function(event, ui) {
-      				},
-      				selected: function(event, ui) {
-      					var item = ui.item.data('item.autocomplete'),
-      						previous = self.previous;
+            if (!jquery_ui_newer_1_9){
+                $(Drupal.coffee.field).data(autocomplete_data_element).menu = $('<ol></ol>')
+                    .addClass('ui-autocomplete')
+                    .appendTo(Drupal.coffee.results)
+                    // prevent the close-on-blur in case of a "slow" click on the menu (long mousedown).
+                    .mousedown(function(event) {})
 
-      					Drupal.coffee.redirect(item.value, event.metaKey);
-      					event.preventDefault();
-      				},
-      				blur: function(event, ui) {
-      				}
-      			})
-      			.hide()
-      			.data('menu');
+                    .menu({
+                        focus: function(event, ui) {
+                        },
+                        selected: function(event, ui) {
+                            var item = ui.item.data('item.autocomplete');
+                            Drupal.coffee.redirect(item.value, event.metaKey);
+                            event.preventDefault();
+                        },
+                        blur: function(event, ui) {
+                        }
+                    })
+
+                    .hide()
+                    .data('menu');
+            }
 
             // We want to limit the number of results.
             $(Drupal.coffee.field).data(autocomplete_data_element)._renderMenu = function(ul, items) {
           		var self = this;
           		items = items.slice(0, 7); // @todo: max should be in Drupal.settings var.
           		$.each( items, function(index, item) {
-          			self._renderItem(ul, item);
+                    if (typeof(self._renderItemData) === "undefined"){
+                        self._renderItem(ul, item);
+                    }
+                    else {
+                        self._renderItemData(ul, item);
+                    }
+
           		});
           	};
 
