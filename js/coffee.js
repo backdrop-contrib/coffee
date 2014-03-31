@@ -63,11 +63,13 @@
             // Apply autocomplete plugin on show
             var $autocomplete = $(Drupal.coffee.field).autocomplete({
               source: Drupal.coffee.dataset,
-              focus: function( event, ui ) {},
+              focus: function( event, ui ) {
+                  // Prevents replacing the value of the input field
+                  event.preventDefault();
+              },
               select: function(event, ui) {
                 Drupal.coffee.redirect(ui.item.value, event.metaKey);
                 event.preventDefault();
-
                 return false;
               },
               delay: 0,
@@ -89,17 +91,14 @@
                     .addClass('ui-autocomplete')
                     .appendTo(Drupal.coffee.results)
                     // prevent the close-on-blur in case of a "slow" click on the menu (long mousedown).
-                    .mousedown(function(event) {})
-
+                    .mousedown(function(event) {
+                        event.preventDefault();
+                    })
                     .menu({
-                        focus: function(event, ui) {
-                        },
                         selected: function(event, ui) {
                             var item = ui.item.data('item.autocomplete');
                             Drupal.coffee.redirect(item.value, event.metaKey);
                             event.preventDefault();
-                        },
-                        blur: function(event, ui) {
                         }
                     })
 
