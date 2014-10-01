@@ -109,7 +109,8 @@
             // We want to limit the number of results.
             $(Drupal.coffee.field).data(autocomplete_data_element)._renderMenu = function(ul, items) {
           		var self = this;
-          		items = items.slice(0, 7); // @todo: max should be in Drupal.settings var.
+              //@todo: max should be in Drupal.settings var.
+              items = items.slice(0, 7);
           		$.each( items, function(index, item) {
                     if (typeof(self._renderItemData) === "undefined"){
                         self._renderItem(ul, item);
@@ -121,14 +122,20 @@
           		});
           	};
 
-          	// On submit of the form select the first result if available.
-          	Drupal.coffee.form.submit(function() {
-          	  var firstItem = jQuery(Drupal.coffee.results).find('li:first').data('item.autocomplete');
-          	  if (typeof firstItem == 'object') {
-          	    Drupal.coffee.redirect(firstItem.value, false);
+            Drupal.coffee.form.keydown(function(event) {
+              if (event.keyCode == 13) {
+                var openInNewWindow = false;
+                event.preventDefault();
+
+                if (event.metaKey) {
+                  openInNewWindow = true;
           	  }
 
-          	  return false;
+                var $firstItem = jQuery(Drupal.coffee.results).find('li:first').data('item.autocomplete');
+                if (typeof $firstItem === 'object') {
+                  Drupal.coffee.redirect($firstItem.value, openInNewWindow);
+                }
+              }
           	});
           },
           error: function() {
