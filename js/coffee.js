@@ -7,26 +7,26 @@
   // Remap the filter functions for autocomplete to recognise the
   // extra value "command".
   var proto = $.ui.autocomplete.prototype,
-  	initSource = proto._initSource;
+    initSource = proto._initSource;
 
   function filter(array, term) {
-  	var matcher = new RegExp( $.ui.autocomplete.escapeRegex(term), 'i');
-  	return $.grep(array, function(value) {
+    var matcher = new RegExp($.ui.autocomplete.escapeRegex(term), 'i');
+    return $.grep(array, function(value) {
                 return matcher.test(value.command) || matcher.test(value.label) || matcher.test(value.value);
-  	});
+    });
   }
 
   $.extend(proto, {
-  	_initSource: function() {
-  		if ($.isArray(this.options.source)) {
-  			this.source = function(request, response) {
-  				response(filter(this.options.source, request.term));
-  			};
-  		}
-  		else {
-  			initSource.call(this);
-  		}
-  	}
+    _initSource: function() {
+      if ($.isArray(this.options.source)) {
+        this.source = function(request, response) {
+          response(filter(this.options.source, request.term));
+        };
+      }
+      else {
+        initSource.call(this);
+      }
+    }
   });
 
   Drupal.coffee = Drupal.coffee || {};
@@ -49,7 +49,8 @@
         // Load autocomplete data set, consider implementing
         // caching with local storage.
         Drupal.coffee.dataset = [];
-        
+        Drupal.coffee.isItemSelected = false;
+
         var jquery_ui_version = $.ui.version.split('.');
         var jquery_ui_newer_1_9 = parseInt(jquery_ui_version[0]) >= 1 && parseInt(jquery_ui_version[1]) > 9;
         var autocomplete_data_element = (jquery_ui_newer_1_9) ? 'ui-autocomplete' : 'autocomplete';
@@ -63,9 +64,13 @@
             // Apply autocomplete plugin on show
             var $autocomplete = $(Drupal.coffee.field).autocomplete({
               source: Drupal.coffee.dataset,
-              focus: function( event, ui ) {
+              focus: function(event, ui) {
+                  Drupal.coffee.isItemSelected = true;
                   // Prevents replacing the value of the input field
                   event.preventDefault();
+              },
+              change: function(event, ui) {
+                  Drupal.coffee.isItemSelected = false;
               },
               select: function(event, ui) {
                 Drupal.coffee.redirect(ui.item.value, event.metaKey);
@@ -99,6 +104,9 @@
                             var item = ui.item.data('item.autocomplete');
                             Drupal.coffee.redirect(item.value, event.metaKey);
                             event.preventDefault();
+                        },
+                        focus: function(event, ui) {
+                            Drupal.coffee.isItemSelected = true;
                         }
                     })
 
@@ -108,10 +116,10 @@
 
             // We want to limit the number of results.
             $(Drupal.coffee.field).data(autocomplete_data_element)._renderMenu = function(ul, items) {
-          		var self = this;
+              var self = this;
               //@todo: max should be in Drupal.settings var.
               items = items.slice(0, 7);
-          		$.each( items, function(index, item) {
+              $.each(items, function(index, item) {
                     if (typeof(self._renderItemData) === "undefined"){
                         self._renderItem(ul, item);
                     }
@@ -119,24 +127,24 @@
                         self._renderItemData(ul, item);
                     }
 
-          		});
-          	};
+              });
+            };
 
             Drupal.coffee.form.keydown(function(event) {
               if (event.keyCode == 13) {
                 var openInNewWindow = false;
-                event.preventDefault();
 
                 if (event.metaKey) {
                   openInNewWindow = true;
-          	  }
-
-                var $firstItem = jQuery(Drupal.coffee.results).find('li:first').data('item.autocomplete');
-                if (typeof $firstItem === 'object') {
-                  Drupal.coffee.redirect($firstItem.value, openInNewWindow);
+                }
+                if (!Drupal.coffee.isItemSelected) {
+                    var $firstItem = jQuery(Drupal.coffee.results).find('li:first').data('item.autocomplete');
+                    if (typeof $firstItem === 'object') {
+                        Drupal.coffee.redirect($firstItem.value, openInNewWindow);
+                    }
                 }
               }
-          	});
+            });
           },
           error: function() {
             Drupal.coffee.field.val('Could not load data, please refresh the page');
@@ -148,10 +156,10 @@
           var activeElement = $(document.activeElement);
 
           // Show the form with alt + D. Use 2 keycodes as 'D' can be uppercase or lowercase.
-          if (Drupal.coffee.form.hasClass('hide-form') && 
-        		  event.altKey === true && 
-        		  // 68/206 = d/D, 75 = k. 
-        		  (event.keyCode === 68 || event.keyCode === 206  || event.keyCode === 75)) {
+          if (Drupal.coffee.form.hasClass('hide-form') &&
+              event.altKey === true &&
+              // 68/206 = d/D, 75 = k.
+              (event.keyCode === 68 || event.keyCode === 206  || event.keyCode === 75)) {
             Drupal.coffee.coffee_show();
             event.preventDefault();
           }
