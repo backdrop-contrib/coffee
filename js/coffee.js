@@ -84,7 +84,10 @@
            $autocomplete.data(autocomplete_data_element)._renderItem = function(ul, item) {
               return  $('<li></li>')
                       .data('item.autocomplete', item)
-                      .append('<a>' + item.label + '<small class="description">' + item.value + '</small></a>')
+                      .append(
+                        '<a>' + (item.parent ? item.parent + ' &raquo; ' : '') + item.label +
+                        '<small class="description">' + item.value + '</small>' +
+                        '</a>')
                       .appendTo(ul);
             };
 

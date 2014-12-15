@@ -94,11 +94,15 @@ function coffee_traverse_below($link, &$output, $command = NULL) {
       'value' => $l['link_path'],
       'label' => $label,
       'command' => $command,
+      'parent' => !empty($link['parent']) ? $link['parent'] : NULL,
     );
   }
 
   if (isset($link['below']) && is_array($link['below'])) {
     foreach ($link['below'] as $below_link) {
+      if (isset($label)) {
+        $below_link['parent'] = $label;
+      }
       coffee_traverse_below($below_link, $output);
     }
   }
@@ -161,6 +165,10 @@ function coffee_get_menu_response() {
         unset($output[$k]);
 
         continue;
+      }
+
+      if (!empty($v['parent'])) {
+        $output[$k]['parent'] = $v['parent'];
       }
 
       // Prevent any nasty commands from getting through.
