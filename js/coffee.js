@@ -85,7 +85,7 @@
               return  $('<li></li>')
                       .data('item.autocomplete', item)
                       .append(
-                        '<a>' + (item.parent ? item.parent + ' &raquo; ' : '') + item.label +
+                        '<a href="' + item.value + '">' + (item.parent ? item.parent + ' &raquo; ' : '') + item.label +
                         '<small class="description">' + item.value + '</small>' +
                         '</a>')
                       .appendTo(ul);
