@@ -198,6 +198,22 @@ function coffee_get_menu_response() {
  * awesome admin_menu module.
  */
 function coffee_flush_caches($uid = NULL) {
+  // A call to menu_rebuild() will trigger potentially thousands of calls into
+  // menu_link_save(), for which admin_menu has to implement the corresponding
+  // CRUD hooks, in order to take up any menu link changes, since any menu link
+  // change could affect the admin menu (which essentially is an aggregate) and
+  // since there is no other way to get notified about stale caches. The cache
+  // only needs to be flushed once though, so we prevent a ton of needless
+  // subsequent calls with this static.
+  // @see http://drupal.org/node/918538
+  $was_flushed = &drupal_static(__FUNCTION__, array());
+  // $uid can be NULL. PHP automatically converts that into '' (empty string),
+  // which is different to uid 0 (zero).
+  if (isset($was_flushed[$uid])) {
+    return;
+  }
+  $was_flushed[$uid] = TRUE;
+
   $cid = 'coffee_commands:';
   if (isset($uid)) {
     $cid .= $uid . ':';
