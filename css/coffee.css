@@ -2,6 +2,12 @@
  * @file
  * Stylesheet for the Coffee module.
  */
+[id^="coffee"] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 #coffee-bg {
   position: fixed;
   left: 0;
@@ -10,70 +16,136 @@
   height: 100%;
   z-index: 999;
 }
+
 #coffee-form {
   position: fixed;
   left: 50%;
-  top: 119px;
-  width: 455px;
-  margin-left: -227.5px;
+  top: 120px;
+  width: 500px;
+  margin-left: -250px;
   padding: 10px;
-  font-size: 16px;
-  line-height: 16px;
-  font-family: sans-serif;
-  background: rgba(0, 0, 0, 0.6);
+  font: 16px/1.5 sans-serif;
+  background: black;
+  background: rgba(0, 0, 0, 0.4);
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+  border-radius: 15px;
   z-index: 9999;
-  -webkit-border-radius: 16px;
-  -moz-border-radius: 16px;
-  border-radius: 16px;
+  opacity: 1;
+  -webkit-transition: opacity 0.35s;
+  -moz-transition: opacity 0.35s;
+  -ms-transition: opacity 0.35s;
+  -o-transition: opacity 0.35s;
+  transition: opacity 0.35s false;
 }
+
+#coffee-form.hide-form {
+  position: absolute;
+  left: -100%;
+  opacity: 0;
+}
+
 #coffee-form-inner {
-  background: white;
-  color: #444444;
+  background: #fff;
+  color: #444;
   padding: 10px 10px 1px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
   border-radius: 5px;
-  -webkit-box-shadow: 0 10px 39px rgba(0, 0, 0, 0.6);
-  -moz-box-shadow: 0 10px 39px rgba(0, 0, 0, 0.6);
-  box-shadow: 0 10px 39px rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.6);
 }
+
 #coffee-q {
   background: #d1d1d1;
-  color: black;
+  color: #000;
   border: 0;
-  font: 39px sans-serif;
+  font: 36px sans-serif;
+  line-height: 52px;
   padding: 5px 10px;
-  width: 415px;
+  width: 460px;
+  height: 52px;
   outline: none;
   display: block;
   margin: 0 0 10px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -ms-border-radius: 0px;
+  -o-border-radius: 0px;
+  border-radius: 0px;
 }
-#coffee-results {
+
+#coffee-q:focus {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+#coffee-results ul,
+#coffee-results ol {
+  position: static;
+  float: none;
   list-style: none;
-  margin: 0 0 10px;
-  padding: 0;
+  margin: 0;
+  padding: 10px 0 0;
+  border: 0;
 }
+
 #coffee-results li {
   margin: 0;
   padding: 0;
+  float: none;
+  clear: none;
+  width: auto;
 }
-#coffee-results .description {
-  display: block;
-  font-size: 10px;
-  font-family: "Lucida Grande", "Lucida Sans Unicode", sans-serif;
-  color: #9d9d9d;
-}
+
 #coffee-results a {
   display: block;
-  text-decoration: none;
+  border: 0;
   outline: none;
-  color: #444444;
-  padding: 5px 10px;
+  color: #444;
+  padding: 6px 10px 4px;
+  line-height: normal;
+  font-size: 16px;
+  text-decoration: none;
+  height: auto;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+  transition: none;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -ms-border-radius: 0px;
+  -o-border-radius: 0px;
+  border-radius: 0px;
 }
-#coffee-results a:focus, #coffee-results a.focus {
+
+#coffee-results a.ui-state-hover,
+#coffee-results a:focus,
+#coffee-results a:hover,
+#coffee-results .ui-state-focus {
   background: #d1d1d1;
-  color: black;
+  color: #000;
+  margin: 0;
+  cursor: pointer;
 }
-#coffee-results a:focus .description, #coffee-results a.focus .description {
-  color: #444444;
+
+#coffee-results .description {
+  display: block;
+  font-size: 11px;
+  color: #888;
+}
+
+#coffee-results a.ui-state-hover .description {
+  color: #666;
+}
+
+#coffee-results .ui-widget {
+  font-family: sans-serif;
 }

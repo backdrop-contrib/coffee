@@ -1,145 +1,219 @@
-(function ($) {
+/**
+ * @file
+ * JavaScript file for the Coffee module.
+ */
 
-Drupal.coffee = Drupal.coffee || {};
+(function($) {
+  // Remap the filter functions for autocomplete to recognise the
+  // extra value "command".
+  var proto = $.ui.autocomplete.prototype,
+  	initSource = proto._initSource;
 
-Drupal.behaviors.coffee = {
-  attach: function () {
-    $('body').once('coffee', function () {
-
-      var body = $(this);
-
-      // Use a background element to make the form closable by clicking outside it
-      Drupal.coffee.bg.appendTo(body);
-
-      // Append the form, add an inner div for validation and styling
-      Drupal.coffee.form.wrapInner('<div id="coffee-form-inner" />').appendTo(body);
-
-      // Hide all elements until alt+D is pressed
-      Drupal.coffee.hide();
-
-      $(document).keydown(function (event) {
-
-        var activeElement = $(document.activeElement);
-
-        // Show the form with alt+D. We use 2 keycodes as 'D' can be upper- or lowercase
-        if ( !Drupal.coffee.form.is(':visible') && event.altKey === true && (event.keyCode === 68 || event.keyCode === 206) ) {
-          Drupal.coffee.show();
-          event.preventDefault();
-        }
-
-        // Hide the form with esc or alt+D
-        else if ( Drupal.coffee.form.is(':visible') && (event.keyCode === 27 || (event.altKey === true && (event.keyCode === 68 || event.keyCode === 206))) ) {
-          Drupal.coffee.hide();
-          event.preventDefault();
-        }
-
-        // Enter key handling for the search field: follow the first result link
-        else if (Drupal.coffee.form.is(':visible') && event.keyCode === 13 && activeElement[0] === Drupal.coffee.field[0]) {
-          if (Drupal.coffee.results.children().length) {
-            Drupal.coffee.results.find('a:first').addClass('trigger').click();
-          }
-          event.preventDefault();
-        }
-
-        // Use the arrow up/down keys to navigate trough the results
-        else if ( Drupal.coffee.form.is(':visible') && Drupal.coffee.results.children().length && (event.keyCode === 38 || event.keyCode === 40) ) {
-
-          // From the search field: jump to the first (down) or last (up) result.
-          // Skip the first result if it already has the fake focus class.
-          if (activeElement[0] === Drupal.coffee.field[0]) {
-            Drupal.coffee.results.find( event.keyCode === 38 ? 'a:last' : (Drupal.coffee.results.find('a:first').hasClass('focus') ? 'li:nth-child(2) a' : 'a:first') ).focus();
-          }
-
-          // Jump to the last result if 'up' is used on the first, and the other way around
-          else if (activeElement[0] === Drupal.coffee.results.find(event.keyCode === 38 ? 'a:first' : 'a:last')[0]) {
-            Drupal.coffee.results.find( event.keyCode === 38 ? 'a:last' : 'a:first' ).focus();
-          }
-
-          // Assuming we're on a result link
-          else if (event.keyCode === 38) {
-            activeElement.parent().prev().find('a').focus();
-          } else {
-            activeElement.parent().next().find('a').focus();
-          }
-
-          event.preventDefault();
-        }
-
-      });
-
-
-      // .live() is deprecated ==>> convert to .on() when Drupal gets jQuery 1.7+ (http://api.jquery.com/live/)
-
-      // Remove the fake focus class once actual focus is used
-      $('#coffee-results a').live('focus', function () {
-        Drupal.coffee.results.find('.focus').removeClass('focus');
-      })
-      // Hide the form explicitly after following a link as pages aren't reloaded when the overlay is used
-      .live('click', function () {
-        Drupal.coffee.hide();
-      });
-
-      // Simulate native click behavior when using .trigger()
-      $('#coffee-results .trigger').live('click', function () {
-        window.location.href = this.href;
-        return false;
-      });
-    });
+  function filter(array, term) {
+  	var matcher = new RegExp( $.ui.autocomplete.escapeRegex(term), 'i');
+  	return $.grep(array, function(value) {
+                return matcher.test(value.command) || matcher.test(value.label) || matcher.test(value.value);
+  	});
   }
-};
 
-Drupal.coffee.show = function () {
-  Drupal.coffee.form.show();
-  Drupal.coffee.bg.show();
-  Drupal.coffee.field.focus();
-};
-
-Drupal.coffee.hide = function () {
-  Drupal.coffee.field.val('');
-  Drupal.coffee.results.empty();
-  Drupal.coffee.form.hide();
-  Drupal.coffee.bg.hide();
-};
-
-Drupal.coffee.bg = $('<div id="coffee-bg" />')
-  .click(function () {
-    Drupal.coffee.hide();
+  $.extend(proto, {
+  	_initSource: function() {
+  		if ($.isArray(this.options.source)) {
+  			this.source = function(request, response) {
+  				response(filter(this.options.source, request.term));
+  			};
+  		}
+  		else {
+  			initSource.call(this);
+  		}
+  	}
   });
 
-Drupal.coffee.form = $('<form id="coffee-form" />');
+  Backdrop.coffee = Backdrop.coffee || {};
 
-Drupal.coffee.label = $('<label for="coffee-q" class="element-invisible" />')
-  .appendTo(Drupal.coffee.form)
-  .text(Drupal.t('Query'));
+  Backdrop.behaviors.coffee = {
+    attach: function() {
+      $('body').once('coffee', function() {
+        var body = $(this);
 
-Drupal.coffee.field = $('<input id="coffee-q" type="text" autocomplete="off" />')
-  .appendTo(Drupal.coffee.form)
-  .keyup(function () {
-    Drupal.coffee.resultsPlaceholder.empty();
+        Backdrop.coffee.bg.appendTo(body).hide();
 
-    if (Drupal.coffee.field.val().length > 0) {
-      $.getJSON(Drupal.settings.basePath + '?q=admin/coffee/result/' + Drupal.coffee.field.val(), function (data) {
-        if (data) {
-          $.each(data, function (key, value) {
-            var description = $('<small class="description" />').text(value.path);
-            $('<a />').text(value.title)
-              .attr('href', Drupal.settings.basePath + value.path)
-              .append(description)
-              .appendTo(Drupal.coffee.resultsPlaceholder)
-              .wrap('<li />');
-          });
+        Backdrop.coffee.form
+        .append(Backdrop.coffee.label)
+        .append(Backdrop.coffee.field)
+        .append(Backdrop.coffee.results)
+        .wrapInner('<div id="coffee-form-inner" />')
+        .addClass('hide-form')
+        .appendTo(body);
 
-          // Highlight the first result as if it were focused, as a visual hint for
-          // what will happen when the enter key is used in the search field.
-          Drupal.coffee.results.html(Drupal.coffee.resultsPlaceholder.children()).find('a:first').addClass('focus');
-        }
+        // Load autocomplete data set, consider implementing
+        // caching with local storage.
+        Backdrop.coffee.dataset = [];
+
+        var jquery_ui_version = $.ui.version.split('.');
+        var jquery_ui_newer_1_9 = parseInt(jquery_ui_version[0]) >= 1 && parseInt(jquery_ui_version[1]) > 9;
+        var autocomplete_data_element = (jquery_ui_newer_1_9) ? 'ui-autocomplete' : 'autocomplete';
+
+        $.ajax({
+          url: Backdrop.settings.basePath + '?q=admin/coffee/menu',
+          dataType: 'json',
+          success: function(data) {
+            Backdrop.coffee.dataset = data;
+
+            // Apply autocomplete plugin on show
+            var $autocomplete = $(Backdrop.coffee.field).autocomplete({
+              source: Backdrop.coffee.dataset,
+              focus: function( event, ui ) {
+                  // Prevents replacing the value of the input field
+                  event.preventDefault();
+              },
+              select: function(event, ui) {
+                Backdrop.coffee.redirect(ui.item.value, event.metaKey);
+                event.preventDefault();
+                return false;
+              },
+              delay: 0,
+              appendTo: Backdrop.coffee.results
+           });
+
+           $autocomplete.data(autocomplete_data_element)._renderItem = function(ul, item) {
+              return  $('<li></li>')
+                      .data('item.autocomplete', item)
+                      .append('<a>' + item.label + '<small class="description">' + item.value + '</small></a>')
+                      .appendTo(ul);
+            };
+
+            // This isn't very nice, there are methods within that we need
+            // to alter, so here comes a big wodge of text...
+            var self = Backdrop.coffee.field;
+            if (!jquery_ui_newer_1_9){
+                $(Backdrop.coffee.field).data(autocomplete_data_element).menu = $('<ol></ol>')
+                    .addClass('ui-autocomplete')
+                    .appendTo(Backdrop.coffee.results)
+                    // prevent the close-on-blur in case of a "slow" click on the menu (long mousedown).
+                    .mousedown(function(event) {
+                        event.preventDefault();
+                    })
+                    .menu({
+                        selected: function(event, ui) {
+                            var item = ui.item.data('item.autocomplete');
+                            Backdrop.coffee.redirect(item.value, event.metaKey);
+                            event.preventDefault();
+                        }
+                    })
+
+                    .hide()
+                    .data('menu');
+            }
+
+            // We want to limit the number of results.
+            $(Backdrop.coffee.field).data(autocomplete_data_element)._renderMenu = function(ul, items) {
+          		var self = this;
+          		items = items.slice(0, 7); // @todo: max should be in Backdrop.settings var.
+          		$.each( items, function(index, item) {
+                    if (typeof(self._renderItemData) === "undefined"){
+                        self._renderItem(ul, item);
+                    }
+                    else {
+                        self._renderItemData(ul, item);
+                    }
+
+          		});
+          	};
+
+          	// On submit of the form select the first result if available.
+          	Backdrop.coffee.form.submit(function() {
+          	  var firstItem = jQuery(Backdrop.coffee.results).find('li:first').data('item.autocomplete');
+          	  if (typeof firstItem == 'object') {
+          	    Backdrop.coffee.redirect(firstItem.value, false);
+          	  }
+
+          	  return false;
+          	});
+          },
+          error: function(error) {
+            Backdrop.coffee.field.val('Could not load data, please refresh the page');
+          }
+        });
+
+        // Key events
+        $(document).keydown(function(event) {
+          var activeElement = $(document.activeElement);
+
+          // Show the form with alt + D. Use 2 keycodes as 'D' can be uppercase or lowercase.
+          if (Backdrop.coffee.form.hasClass('hide-form') &&
+        		  event.altKey === true &&
+        		  // 68/206 = d/D, 75 = k.
+        		  (event.keyCode === 68 || event.keyCode === 206  || event.keyCode === 75)) {
+            Backdrop.coffee.coffee_show();
+            event.preventDefault();
+          }
+          // Close the form with esc or alt + D.
+          else if (!Backdrop.coffee.form.hasClass('hide-form') && (event.keyCode === 27 || (event.altKey === true && (event.keyCode === 68 || event.keyCode === 206)))) {
+            Backdrop.coffee.coffee_close();
+            event.preventDefault();
+          }
+        });
       });
     }
+  };
+
+  // Prefix the open and close functions to avoid
+  // conflicts with autocomplete plugin.
+
+  /**
+   * Open the form and focus on the search field.
+   */
+  Backdrop.coffee.coffee_show = function() {
+    Backdrop.coffee.form.removeClass('hide-form');
+    Backdrop.coffee.bg.show();
+    Backdrop.coffee.field.focus();
+    $(Backdrop.coffee.field).autocomplete({enable: true});
+  };
+
+  /**
+   * Close the form and destroy all data.
+   */
+  Backdrop.coffee.coffee_close = function() {
+    Backdrop.coffee.field.val('');
+    //Backdrop.coffee.results.empty();
+    Backdrop.coffee.form.addClass('hide-form');
+    Backdrop.coffee.bg.hide();
+    $(Backdrop.coffee.field).autocomplete({enable: false});
+  };
+
+  /**
+   * Close the Coffee form and redirect.
+   * Todo: make it work with the overlay module.
+   */
+  Backdrop.coffee.redirect = function(path, openInNewWindow) {
+    Backdrop.coffee.coffee_close();
+
+    if (openInNewWindow) {
+      window.open(Backdrop.settings.basePath + path);
+    }
+    else {
+      document.location = Backdrop.settings.basePath + path;
+    }
+  };
+
+  /**
+   * The HTML elements.
+   */
+  Backdrop.coffee.label = $('<label for="coffee-q" class="element-invisible" />').text(Backdrop.t('Query'));
+
+  Backdrop.coffee.results = $('<div id="coffee-results" />');
+
+  // Instead of appending results one by one, we put them in a placeholder element
+  // first and then append them all at once to prevent flickering while typing.
+  Backdrop.coffee.resultsPlaceholder = $('<ol />');
+
+  Backdrop.coffee.form = $('<form id="coffee-form" action="#" />');
+
+  Backdrop.coffee.bg = $('<div id="coffee-bg" />').click(function() {
+    Backdrop.coffee.coffee_close();
   });
 
-// Instead of appending results one by one, we put them in a placeholder element
-// and then append them all at once to prevent flickering while typing.
-Drupal.coffee.results = $('<ol id="coffee-results" />').appendTo(Drupal.coffee.form);
-Drupal.coffee.resultsPlaceholder = $('<ol />');
+  Backdrop.coffee.field = $('<input id="coffee-q" type="text" autocomplete="off" />');
 
-})(jQuery);
+}(jQuery));
