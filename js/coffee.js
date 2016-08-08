@@ -218,10 +218,10 @@
     Drupal.coffee.coffee_close();
 
     if (openInNewWindow) {
-      window.open(Drupal.settings.basePath + path);
+      window.open(Drupal.settings.basePath + Drupal.settings.pathPrefix + path);
     }
     else {
-      document.location = Drupal.settings.basePath + path;
+      document.location = Drupal.settings.basePath + Drupal.settings.pathPrefix + path;
     }
   };
 
