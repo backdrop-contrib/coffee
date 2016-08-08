@@ -155,6 +155,15 @@
           }
         });
 
+        $('.navbar-icon-coffee').click(function (event) {
+          event.preventDefault();
+          if (!Drupal.coffee.form.hasClass('hide-form')) {
+            Drupal.coffee.coffee_close();
+          } else {
+            Drupal.coffee.coffee_show();
+          }
+        });
+
         // Key events
         $(document).keydown(function(event) {
           var activeElement = $(document.activeElement);
