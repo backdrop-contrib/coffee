@@ -11,7 +11,7 @@
  */
 
 /**
- * Extend the Coffee functionallity with your own commands and items.
+ * Extend the Coffee functionality with your own commands and items.
  *
  * Here's an example of how to add content to Coffee.
  */

@@ -22,7 +22,7 @@ function coffee_enable() {
   cache_clear_all(NULL, 'cache_menu');
 
   // Let users know how to use the module!
-  drupal_set_message(t('The Coffee module was succesfully enabled, press alt+d to start Coffee.'), 'status');
+  drupal_set_message(t('The Coffee module was successfully enabled, press alt+d to start Coffee.'), 'status');
 }
 
 /**
