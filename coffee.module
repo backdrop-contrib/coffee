@@ -168,16 +168,18 @@ function coffee_get_menu_response() {
       }
 
       if (!empty($v['parent'])) {
-        $output[$k]['parent'] = $v['parent'];
+        $output[$k]['parent'] = check_plain($v['parent']);
       }
 
       // Prevent any nasty commands from getting through.
-      $output[$k]['label'] = filter_xss($output[$k]['label']);
+      $output[$k]['label'] = check_plain($output[$k]['label']);
 
       // If clean URLs are turned off, alter the command URLs.
       if (empty($GLOBALS['conf']['clean_url'])) {
         $output[$k]['value'] = '?q=' . $output[$k]['value'];
       }
+
+      $output[$k]['value'] = check_url($output[$k]['value']);
     }
 
     // Re-index the array, it matters to jQuery if we've removed items.
