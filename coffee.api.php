@@ -11,7 +11,7 @@
  */
 
 /**
- * Extend the Coffee functionallity with your own commands and items.
+ * Extend the Coffee functionality with your own commands and items.
  *
  * Here's an example of how to add content to Coffee.
  */
@@ -34,7 +34,7 @@ function hook_coffee_commands($op) {
     $view->set_display('default');
     $view->pre_execute();
     $view->execute();
-  
+
     if (count($view->result) > 0) {
       foreach ($view->result as $row) {
         $commands[] = array(
